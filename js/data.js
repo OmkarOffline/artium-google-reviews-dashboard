@@ -167,5 +167,15 @@ const SNAPSHOT = {
     { centreId: "thoraipakkam", rating: 4, date: "2026-09-18", text: "Good classes, app could be more intuitive for tracking attendance.", tags: ["app experience"] },
     { centreId: "borewell-road", rating: 5, date: "2026-09-17", text: "Best decision to enroll here. Highly recommend the guitar program.", tags: ["general"] },
     { centreId: "alwarpet", rating: 4, date: "2026-09-15", text: "Great teachers, though weekend slots fill up fast.", tags: ["scheduling", "teacher mentioned"] }
+  ],
+
+  // Operations Directory — the people responsible for review targets.
+  // PLACEHOLDER: replace with your actual team list. One row per
+  // person-per-centre assignment (a person covering 2 centres gets 2 rows).
+  operationsDirectory: [
+    { id: 1, name: "Omkar", email: "omkar@artiumacademy.com", centreId: "all", role: "Admin", cadence: "Weekly", ownsTarget: false },
+    { id: 2, name: "Monika", email: "monika@artiumacademy.com", centreId: "alwarpet", role: "Operations Owner", cadence: "Weekly", ownsTarget: true },
+    { id: 3, name: "Monika", email: "monika@artiumacademy.com", centreId: "borewell-road", role: "Operations Owner", cadence: "Weekly", ownsTarget: true },
+    { id: 4, name: "Padma", email: "padma@artiumacademy.com", centreId: "thoraipakkam", role: "Operations Owner", cadence: "Fortnightly", ownsTarget: true }
   ]
 };
