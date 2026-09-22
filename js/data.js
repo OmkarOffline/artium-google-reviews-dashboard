@@ -41,7 +41,29 @@ const SNAPSHOT = {
         { name: "Priya Ramanathan", course: "Carnatic Classical", mentions: 9 },
         { name: "Arjun Nair", course: "Guitar", mentions: 5 },
         { name: "Divya Krishnan", course: "PFM - Tamil", mentions: 3 }
-      ]
+      ],
+      monthlySummaries: {
+        "2026-09": {
+          aiSummary: "September reviews at Alwarpet lean strongly positive, driven by praise for teacher expertise and the centre's calm ambience. Scheduling flexibility remains the one recurring friction point, mentioned by a handful of working parents.",
+          wentWell: [
+            "Teacher expertise called out by name in over half of reviews",
+            "Ambience and cleanliness praised consistently",
+            "Front-desk responsiveness improved from August"
+          ],
+          wentWrong: [
+            "Weekend slot availability still tight for working parents",
+            "One review flagged a delayed fee-receipt follow-up"
+          ],
+          topicMentions: [
+            { topic: "teacher quality", count: 8 },
+            { topic: "ambience", count: 6 },
+            { topic: "scheduling", count: 4 },
+            { topic: "staff behavior", count: 3 },
+            { topic: "pricing", count: 1 }
+          ],
+          sentiment: { positive: 79, neutral: 14, negative: 7 }
+        }
+      }
     },
     {
       id: "thoraipakkam",
@@ -68,7 +90,27 @@ const SNAPSHOT = {
         { name: "Karthik Subramaniam", course: "Keyboard", mentions: 6 },
         { name: "Sneha Iyer", course: "Western Vocals", mentions: 4 },
         { name: "Not Applicable", course: "—", mentions: 2 }
-      ]
+      ],
+      monthlySummaries: {
+        "2026-09": {
+          aiSummary: "Thoraipakkam's September reviews centre on class quality and the app-based learning experience, both rated positively. Pricing comes up more often here than at other centres, usually as a comparison point rather than an outright complaint.",
+          wentWell: [
+            "Class quality and structure praised across course types",
+            "Tech-enabled attendance tracking called out as a plus"
+          ],
+          wentWrong: [
+            "App experience still described as 'clunky' by 2 reviewers",
+            "Pricing questioned relative to nearby centres in 3 reviews"
+          ],
+          topicMentions: [
+            { topic: "class quality", count: 5 },
+            { topic: "app experience", count: 4 },
+            { topic: "pricing", count: 3 },
+            { topic: "tech-enabled experience", count: 2 }
+          ],
+          sentiment: { positive: 68, neutral: 21, negative: 11 }
+        }
+      }
     },
     {
       id: "borewell-road",
@@ -95,7 +137,27 @@ const SNAPSHOT = {
         { name: "Ananya Rao", course: "Hindustani Classical", mentions: 11 },
         { name: "Vikram Shetty", course: "Guitar", mentions: 6 },
         { name: "Meera Pillai", course: "Carnatic Classical", mentions: 4 }
-      ]
+      ],
+      monthlySummaries: {
+        "2026-09": {
+          aiSummary: "Borewell Road had its strongest month yet, exceeding its review target. Sentiment is overwhelmingly positive, with individual teachers named frequently and the learning environment repeatedly described as premium.",
+          wentWell: [
+            "Monthly target exceeded for the first time this quarter",
+            "Individual teachers named and praised in most reviews",
+            "Learning environment described as 'premium' by multiple reviewers"
+          ],
+          wentWrong: [
+            "A single review mentioned parking availability near the centre"
+          ],
+          topicMentions: [
+            { topic: "teacher quality", count: 10 },
+            { topic: "learning environment", count: 7 },
+            { topic: "staff behavior", count: 4 },
+            { topic: "overall sentiment", count: 3 }
+          ],
+          sentiment: { positive: 88, neutral: 9, negative: 3 }
+        }
+      }
     }
   ],
 
