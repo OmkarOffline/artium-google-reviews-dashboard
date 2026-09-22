@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Artium Academy Reviews</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div id="topbarSlot"></div>
+
+    <main class="page">
+
+      <div class="filter-bar">
+        <div class="pill-group" id="scopePills">
+          <button type="button" class="active" data-scope="lifetime">Lifetime</button>
+          <button type="button" data-scope="month">Current Month</button>
+        </div>
+
+        <select class="select-control" id="monthSelect" aria-label="Select month"></select>
+
+        <select class="select-control" id="centreSelect" aria-label="Select centre">
+          <option value="all">All centres</option>
+          <option value="alwarpet">Alwarpet</option>
+          <option value="thoraipakkam">Thoraipakkam</option>
+          <option value="borewell-road">Borewell Road</option>
+        </select>
+
+        <select class="select-control" id="rangeSelect" aria-label="Chart range">
+          <option value="3">Last 3 months</option>
+          <option value="6" selected>Last 6 months</option>
+        </select>
+
+        <div class="spacer"></div>
+      </div>
+
+      <section class="page-section">
+        <div class="stat-grid" id="statGrid"></div>
+      </section>
+
+      <section class="page-section">
+        <div class="section-heading">
+          <h2>Centres</h2>
+          <span class="hint">Tap a centre to see its full detail view</span>
+        </div>
+        <div class="centre-grid" id="centreGrid"></div>
+      </section>
+
+      <section class="page-section">
+        <div class="section-heading">
+          <h2>Reviews, month on month</h2>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-legend" id="chartLegend"></div>
+          <div id="chartContainer"></div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="section-heading">
+          <h2>Recent reviews</h2>
+        </div>
+        <div class="review-list" id="reviewList"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

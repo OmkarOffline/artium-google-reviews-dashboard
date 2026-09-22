@@ -1,8 +1,111 @@
 /* ==========================================================================
    Artium Academy — Google Reviews Dashboard
-   Shared app logic (navigation, helpers)
+   Shared app logic — helpers used across every view
    ========================================================================== */
 
-// This file will grow as we build out each view — filters, chart helpers,
-// data loading from the saved snapshot, etc. Left intentionally minimal
-// for now while we're just setting up the Login screen.
+const MONTH_LABELS = {
+  "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun",
+  "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"
+};
+
+function monthLabel(monthKey) {
+  // monthKey looks like "2026-09"
+  const [year, month] = monthKey.split("-");
+  return MONTH_LABELS[month] + " " + year.slice(2);
+}
+
+function currentMonthKey(snapshot) {
+  return snapshot.lastRefreshed.slice(0, 7);
+}
+
+function formatDate(iso) {
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function formatRelativeRefresh(iso) {
+  const d = new Date(iso);
+  return d.toLocaleString("en-IN", {
+    day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+  });
+}
+
+function centreById(snapshot, id) {
+  return snapshot.centres.find(function (c) { return c.id === id; });
+}
+
+function overallStats(snapshot) {
+  const centres = snapshot.centres;
+  const totalReviews = centres.reduce(function (sum, c) { return sum + c.totalReviews; }, 0);
+  const weightedRating = centres.reduce(function (sum, c) { return sum + c.rating * c.totalReviews; }, 0);
+  const avgRating = totalReviews ? (weightedRating / totalReviews) : 0;
+  const currentMonthReviews = centres.reduce(function (sum, c) { return sum + c.currentMonthReviews; }, 0);
+  const currentMonthTarget = centres.reduce(function (sum, c) { return sum + c.monthlyTarget; }, 0);
+  const targetPct = currentMonthTarget ? Math.round((currentMonthReviews / currentMonthTarget) * 100) : 0;
+  return { totalReviews: totalReviews, avgRating: avgRating, currentMonthReviews: currentMonthReviews, currentMonthTarget: currentMonthTarget, targetPct: targetPct };
+}
+
+// Small inline star icon (filled) — used next to ratings.
+function starIcon(colorVar) {
+  return '<svg width="12" height="12" viewBox="0 0 20 20" fill="' + (colorVar || 'currentColor') + '"><path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/></svg>';
+}
+
+function statTile(label, value, icon, delta) {
+  return (
+    '<div class="card stat-tile">' +
+      '<div class="label">' + label + '</div>' +
+      '<div class="value">' + value + (icon ? ' ' + icon : '') + '</div>' +
+      (delta ? '<div class="delta ' + (delta.up ? "up" : "down") + '">' + delta.text + '</div>' : '') +
+    '</div>'
+  );
+}
+
+function refreshIcon() {
+  return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>';
+}
+
+/* ==========================================================================
+   Shared topbar — injected into every logged-in page
+   ========================================================================== */
+
+function renderTopbar(activePage, snapshot) {
+  const nav = [
+    { href: "dashboard.html", label: "Dashboard", key: "dashboard" },
+    { href: "operations.html", label: "Operations Directory", key: "operations" },
+    { href: "teachers.html", label: "Teachers", key: "teachers" }
+  ];
+
+  const navHtml = nav.map(function (item) {
+    const activeClass = item.key === activePage ? " active" : "";
+    return '<a class="' + activeClass.trim() + '" href="' + item.href + '">' + item.label + '</a>';
+  }).join("");
+
+  return (
+    '<header class="topbar">' +
+      '<div class="topbar-brand">' +
+        '<span class="name">Artium Academy</span>' +
+        '<span class="subtitle">Reviews Dashboard</span>' +
+      '</div>' +
+      '<nav class="topbar-nav">' + navHtml + '</nav>' +
+      '<div class="topbar-right">' +
+        '<div class="refresh-meta">' +
+          '<span class="label">Last refreshed</span>' +
+          '<span style="font-size:12.5px;font-weight:500;color:var(--text-primary)">' + formatRelativeRefresh(snapshot.lastRefreshed) + '</span>' +
+        '</div>' +
+        '<button class="icon-btn" id="refreshBtn" title="Refresh data" type="button">' + refreshIcon() + '</button>' +
+      '</div>' +
+    '</header>'
+  );
+}
+
+function wireRefreshButton() {
+  const btn = document.getElementById("refreshBtn");
+  if (!btn) return;
+  btn.addEventListener("click", function () {
+    // Placeholder: real refresh will call the Google My Business API and
+    // re-save the snapshot. For now this just simulates the action so the
+    // interaction feels right while we build the rest of the views.
+    btn.classList.add("spinning");
+    setTimeout(function () { btn.classList.remove("spinning"); }, 700);
+  });
+}

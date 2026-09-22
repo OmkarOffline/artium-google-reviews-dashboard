@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Centre Detail — Artium Academy Reviews</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div id="topbarSlot"></div>
+
+    <main class="page">
+
+      <nav class="breadcrumb" id="breadcrumb"></nav>
+
+      <div class="detail-header">
+        <div>
+          <h1 id="centreTitle"></h1>
+          <div class="location" id="centreLocation"></div>
+        </div>
+        <div class="header-actions">
+          <a class="btn" id="gmbLink" href="#" target="_blank" rel="noopener">View on Google ↗</a>
+          <a class="btn" id="monthDrilldownLink" href="#">Monthly drill-down →</a>
+        </div>
+      </div>
+
+      <section class="page-section">
+        <div class="stat-grid" id="statGrid"></div>
+      </section>
+
+      <section class="page-section two-col">
+        <div class="card" style="padding:20px;">
+          <div class="ai-label" style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">✦ AI summary</div>
+          <p id="aiSummaryText" style="font-size:13.5px;line-height:1.6;color:var(--text-secondary);margin:0;"></p>
+          <div class="theme-tags" id="themeTags"></div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+          <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Centre ownership</h2></div>
+          <div class="info-list" id="ownerInfo"></div>
+        </div>
+      </section>
+
+      <section class="page-section two-col">
+        <div class="card chart-card">
+          <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Review trend</h2></div>
+          <div class="chart-legend" id="chartLegend"></div>
+          <div id="chartContainer"></div>
+        </div>
+
+        <div class="card" style="padding:20px;">
+          <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Monthly breakdown</h2></div>
+          <div class="month-breakdown-list" id="monthBreakdownList"></div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="section-heading"><h2>Teacher mentions</h2></div>
+        <div class="card" style="padding:20px;">
+          <div class="mentions-list" id="mentionsList"></div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="section-heading"><h2>Recent reviews</h2></div>
+        <div class="review-list" id="reviewList"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/centre.js"></script>
+</body>
+</html>
