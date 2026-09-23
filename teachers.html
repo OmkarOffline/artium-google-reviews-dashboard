@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Directory — Artium Academy Reviews</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div id="topbarSlot"></div>
+
+    <main class="page">
+
+      <div class="page-header-row">
+        <div>
+          <h1>Teacher Directory</h1>
+          <div class="sub">Teachers by centre and course, mapped to review mentions</div>
+        </div>
+        <div class="header-actions">
+          <div class="role-switcher">
+            Viewing as
+            <select class="select-control" id="roleSwitcher" aria-label="Viewing as role">
+              <option value="Admin">Admin</option>
+              <option value="Operations Owner">Operations Owner</option>
+              <option value="Teacher">Teacher</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="addTeacherBtn" type="button">+ Add teacher</button>
+        </div>
+      </div>
+
+      <div class="view-tabs" id="viewTabs">
+        <button type="button" class="active" data-view="directory">Directory</button>
+        <button type="button" data-view="leaderboards">Leaderboards</button>
+      </div>
+
+      <section id="directorySection">
+        <div class="readonly-note" id="readonlyNote" style="display:none;">
+          You're viewing in read-only mode. Only Admins can add, edit, or remove teachers.
+        </div>
+
+        <div class="card table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Teacher</th>
+                <th>Centre</th>
+                <th>Course 1</th>
+                <th>Course 2</th>
+                <th>Review mentions</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="directoryTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="leaderboardSection" style="display:none;">
+        <div class="leaderboard-grid">
+          <div class="card" style="padding:20px;">
+            <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Teacher leaderboard</h2></div>
+            <div class="leaderboard-list" id="teacherLeaderboard"></div>
+          </div>
+          <div class="card" style="padding:20px;">
+            <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Centre head leaderboard</h2></div>
+            <div class="leaderboard-list" id="centreHeadLeaderboard"></div>
+          </div>
+          <div class="card" style="padding:20px;">
+            <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Overall leaderboard</h2></div>
+            <div class="leaderboard-list" id="overallLeaderboard"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit Teacher modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <h3 id="modalTitle">Add teacher</h3>
+      <form id="teacherForm">
+        <div class="form-field">
+          <label for="fieldName">Name</label>
+          <input type="text" id="fieldName" required />
+        </div>
+        <div class="form-field">
+          <label for="fieldEmail">Email</label>
+          <input type="email" id="fieldEmail" required />
+        </div>
+        <div class="form-field">
+          <label for="fieldCentre">Centre</label>
+          <select id="fieldCentre"></select>
+        </div>
+        <div class="form-field">
+          <label for="fieldCourse1">Course 1</label>
+          <select id="fieldCourse1"></select>
+        </div>
+        <div class="form-field">
+          <label for="fieldCourse2">Course 2</label>
+          <select id="fieldCourse2"></select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/teachers.js"></script>
+</body>
+</html>

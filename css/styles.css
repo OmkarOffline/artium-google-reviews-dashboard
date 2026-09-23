@@ -174,6 +174,11 @@ button {
   flex-shrink: 0;
 }
 
+.google-signin-slot {
+  display: flex;
+  justify-content: center;
+}
+
 .login-footnote {
   margin-top: var(--space-6);
   font-size: 12px;
@@ -298,6 +303,42 @@ button {
 
 .icon-btn.spinning svg {
   animation: spin 0.7s linear;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border);
+}
+
+.user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.user-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.user-chip .icon-btn {
+  width: 28px;
+  height: 28px;
 }
 
 @keyframes spin {
@@ -1253,4 +1294,106 @@ button {
   background: var(--bg);
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-4);
+}
+
+/* ==========================================================================
+   Teacher Directory + Leaderboards
+   ========================================================================== */
+
+.view-tabs {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  gap: 2px;
+  margin-bottom: var(--space-5);
+}
+
+.view-tabs button {
+  border: none;
+  background: transparent;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.view-tabs button.active {
+  background: var(--surface);
+  color: var(--accent-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-row:last-child {
+  border-bottom: none;
+}
+
+.rank-badge {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--bg);
+  color: var(--text-secondary);
+}
+
+.rank-badge.gold { background: #fef3e0; color: #b45900; }
+.rank-badge.silver { background: #eef0f2; color: #52616b; }
+.rank-badge.bronze { background: #fbe9e2; color: #a54a28; }
+
+.leaderboard-row .info {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-row .name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-row .meta {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.leaderboard-row .score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .leaderboard-grid { grid-template-columns: 1fr; }
 }

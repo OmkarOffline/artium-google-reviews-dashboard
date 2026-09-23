@@ -80,6 +80,17 @@ function renderTopbar(activePage, snapshot) {
     return '<a class="' + activeClass.trim() + '" href="' + item.href + '">' + item.label + '</a>';
   }).join("");
 
+  const user = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+  const userHtml = user ? (
+    '<div class="user-chip" title="' + user.email + '">' +
+      (user.picture
+        ? '<img class="user-avatar" src="' + user.picture + '" alt="" referrerpolicy="no-referrer" />'
+        : '<span class="user-avatar user-avatar-fallback">' + user.name.charAt(0) + '</span>') +
+      '<span class="user-name">' + user.name.split(" ")[0] + '</span>' +
+      '<button class="icon-btn" id="signOutBtn" title="Sign out" type="button">' + signOutIcon() + '</button>' +
+    '</div>'
+  ) : "";
+
   return (
     '<header class="topbar">' +
       '<div class="topbar-brand">' +
@@ -93,9 +104,14 @@ function renderTopbar(activePage, snapshot) {
           '<span style="font-size:12.5px;font-weight:500;color:var(--text-primary)">' + formatRelativeRefresh(snapshot.lastRefreshed) + '</span>' +
         '</div>' +
         '<button class="icon-btn" id="refreshBtn" title="Refresh data" type="button">' + refreshIcon() + '</button>' +
+        userHtml +
       '</div>' +
     '</header>'
   );
+}
+
+function signOutIcon() {
+  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
 }
 
 function wireRefreshButton() {
@@ -108,4 +124,8 @@ function wireRefreshButton() {
     btn.classList.add("spinning");
     setTimeout(function () { btn.classList.remove("spinning"); }, 700);
   });
+  const signOutBtn = document.getElementById("signOutBtn");
+  if (signOutBtn) {
+    signOutBtn.addEventListener("click", signOut);
+  }
 }
