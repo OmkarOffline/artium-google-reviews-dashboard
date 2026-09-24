@@ -119,7 +119,7 @@ button {
 .login-split {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: minmax(0, 4fr) minmax(300px, 1fr);
 }
 
 /* ---- Left: hero visual ---- */
@@ -129,8 +129,8 @@ button {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: var(--space-6) var(--space-7) var(--space-7);
+  justify-content: flex-start;
+  padding: var(--space-5) var(--space-7) var(--space-6);
   color: #ffffff;
   min-height: 100vh;
 }
@@ -145,7 +145,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 65% 50%;
+  object-position: 50% 30%;
   display: block;
 }
 
@@ -153,8 +153,8 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(8, 15, 40, 0.72) 0%, rgba(10, 18, 46, 0.4) 38%, rgba(8, 14, 36, 0.55) 68%, rgba(6, 10, 28, 0.88) 100%),
-    linear-gradient(90deg, rgba(6, 10, 30, 0.55) 0%, rgba(6, 10, 30, 0.05) 45%);
+    linear-gradient(180deg, rgba(6, 12, 36, 0.82) 0%, rgba(8, 15, 42, 0.55) 30%, rgba(8, 14, 36, 0.12) 58%, rgba(6, 10, 28, 0.8) 100%),
+    linear-gradient(90deg, rgba(6, 10, 30, 0.4) 0%, rgba(6, 10, 30, 0.03) 42%);
 }
 
 .login-visual-top,
@@ -172,7 +172,8 @@ button {
 }
 
 .login-visual-content {
-  max-width: 460px;
+  max-width: 440px;
+  margin-top: var(--space-5);
 }
 
 .login-visual-brand {
@@ -180,47 +181,49 @@ button {
   align-items: center;
   gap: 10px;
   font-family: "Manrope", var(--font-sans);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
 }
 
 .login-visual-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   display: block;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .login-visual-headline {
   font-family: "Manrope", var(--font-sans);
-  font-size: 44px;
+  font-size: 36px;
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: -0.02em;
-  margin: 0 0 var(--space-4) 0;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.15);
+  margin: 0 0 var(--space-3) 0;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
 .login-visual-copy {
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.88);
-  max-width: 380px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 360px;
   margin: 0;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
 }
 
 .login-visual-tagline {
   font-family: "Caveat", cursive;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.2;
   color: rgba(255, 255, 255, 0.94);
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-top: auto;
 }
 
 .login-visual-attribution {
@@ -239,12 +242,12 @@ button {
   align-items: center;
   justify-content: center;
   background: var(--surface);
-  padding: var(--space-5);
+  padding: var(--space-5) var(--space-4);
 }
 
 .login-card-v2 {
   width: 100%;
-  max-width: 380px;
+  max-width: 300px;
   text-align: center;
 }
 
@@ -252,11 +255,11 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 999px;
   background: var(--accent-light);
-  margin: 0 auto var(--space-5);
+  margin: 0 auto var(--space-4);
 }
 
 .login-card-title {
@@ -336,7 +339,7 @@ button {
   display: block;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 1100px) {
   .login-split {
     grid-template-columns: 1fr;
   }
@@ -350,8 +353,21 @@ button {
   .login-visual-tagline {
     display: none;
   }
+  .login-visual-img {
+    object-position: 25% 30%;
+  }
+  .login-visual-scrim {
+    background:
+      linear-gradient(180deg, rgba(6, 12, 36, 0.88) 0%, rgba(8, 15, 42, 0.72) 45%, rgba(6, 10, 28, 0.85) 100%);
+  }
+  .login-visual-copy {
+    display: none;
+  }
   .login-panel {
     padding: var(--space-6) var(--space-5);
+  }
+  .login-card-v2 {
+    max-width: 380px;
   }
 }
 

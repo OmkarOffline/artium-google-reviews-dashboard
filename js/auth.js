@@ -42,7 +42,7 @@ function initGoogleSignIn() {
 
   google.accounts.id.renderButton(
     document.getElementById("googleSignInSlot"),
-    { theme: "outline", size: "large", width: 320, text: "signin_with", shape: "pill" }
+    { theme: "outline", size: "large", width: 260, text: "signin_with", shape: "pill" }
   );
 }
 
