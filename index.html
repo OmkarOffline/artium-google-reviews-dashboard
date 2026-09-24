@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
 </head>
 <body class="login-page-v2">
 
@@ -15,38 +15,27 @@
 
     <section class="login-visual">
       <div class="login-visual-bg">
-        <svg class="login-visual-svg" viewBox="0 0 800 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-          <defs>
-            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#0b2a63"/>
-              <stop offset="45%" stop-color="#2a5aa8"/>
-              <stop offset="75%" stop-color="#e08a4f"/>
-              <stop offset="100%" stop-color="#f6c374"/>
-            </linearGradient>
-            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#fff3d6" stop-opacity="0.95"/>
-              <stop offset="100%" stop-color="#fff3d6" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect width="800" height="1000" fill="url(#skyGrad)"/>
-          <circle cx="620" cy="640" r="220" fill="url(#sunGrad)"/>
-          <circle cx="620" cy="640" r="70" fill="#ffe9c2" opacity="0.9"/>
-          <path d="M0 760 L120 640 L220 730 L340 560 L460 720 L560 610 L680 740 L800 660 L800 1000 L0 1000 Z" fill="#173a72" opacity="0.55"/>
-          <path d="M0 830 L150 700 L280 800 L420 660 L580 810 L720 700 L800 780 L800 1000 L0 1000 Z" fill="#0e2856" opacity="0.75"/>
-        </svg>
+        <img class="login-visual-img" src="assets/login-hero.jpg" alt="" />
+        <div class="login-visual-scrim"></div>
       </div>
 
-      <div class="login-visual-top">CHENNAI &nbsp;&middot;&nbsp; BANGALORE &nbsp;&middot;&nbsp; INTERNAL TOOL</div>
+      <div class="login-visual-top">CHENNAI &nbsp;&middot;&nbsp; BANGALORE</div>
 
       <div class="login-visual-content">
-        <div class="login-visual-brand">Artium Academy</div>
-        <h1 class="login-visual-headline">Real Feedback.<br/>Greater Impact.</h1>
+        <div class="login-visual-brand">
+          <img class="login-visual-logo" src="assets/logo-mark.jpg" alt="Artium Academy" />
+          <span>Artium Academy</span>
+        </div>
+        <h1 class="login-visual-headline">Real Feedback.<br/>Real Impact.</h1>
         <p class="login-visual-copy">
           A Google My Business reviews monitoring system to improve organic footprint structurally.
         </p>
       </div>
 
-      <div class="login-visual-tagline">Music Builds<br/>Brighter People</div>
+      <div class="login-visual-tagline">
+        “Notes are only half the story.”
+        <span class="login-visual-attribution">— David Gilmour</span>
+      </div>
     </section>
 
     <section class="login-panel">
