@@ -4,24 +4,83 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Artium Academy — Reviews Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="login-page">
+<body class="login-page-v2">
 
-  <main class="login-card card">
-    <div class="login-brand">Artium Academy</div>
-    <p class="login-tagline">
-      A Google My Business reviews monitoring system to improve organic footprint structurally
-    </p>
+  <div class="login-split">
 
-    <div id="googleSignInSlot" class="google-signin-slot"></div>
+    <section class="login-visual">
+      <div class="login-visual-bg">
+        <svg class="login-visual-svg" viewBox="0 0 800 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0b2a63"/>
+              <stop offset="45%" stop-color="#2a5aa8"/>
+              <stop offset="75%" stop-color="#e08a4f"/>
+              <stop offset="100%" stop-color="#f6c374"/>
+            </linearGradient>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff3d6" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#fff3d6" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="800" height="1000" fill="url(#skyGrad)"/>
+          <circle cx="620" cy="640" r="220" fill="url(#sunGrad)"/>
+          <circle cx="620" cy="640" r="70" fill="#ffe9c2" opacity="0.9"/>
+          <path d="M0 760 L120 640 L220 730 L340 560 L460 720 L560 610 L680 740 L800 660 L800 1000 L0 1000 Z" fill="#173a72" opacity="0.55"/>
+          <path d="M0 830 L150 700 L280 800 L420 660 L580 810 L720 700 L800 780 L800 1000 L0 1000 Z" fill="#0e2856" opacity="0.75"/>
+        </svg>
+      </div>
 
-    <div class="login-error" id="loginError">
-      Your Google account isn't authorized for this dashboard. Contact your admin to be added.
-    </div>
+      <div class="login-visual-top">CHENNAI &nbsp;&middot;&nbsp; BANGALORE &nbsp;&middot;&nbsp; INTERNAL TOOL</div>
 
-    <p class="login-footnote">Internal use only &middot; Artium Academy</p>
-  </main>
+      <div class="login-visual-content">
+        <div class="login-visual-brand">Artium Academy</div>
+        <h1 class="login-visual-headline">Real Feedback.<br/>Greater Impact.</h1>
+        <p class="login-visual-copy">
+          A Google My Business reviews monitoring system to improve organic footprint structurally.
+        </p>
+      </div>
+
+      <div class="login-visual-tagline">Music Builds<br/>Brighter People</div>
+    </section>
+
+    <section class="login-panel">
+      <main class="login-card-v2">
+        <div class="login-pin-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 6.72 11.19 7 11.44a1.5 1.5 0 0 0 2 0C13.28 21.19 20 15.25 20 10c0-4.42-3.58-8-8-8z" fill="#EA4335"/>
+            <circle cx="12" cy="10" r="3.6" fill="#fff"/>
+          </svg>
+        </div>
+
+        <h2 class="login-card-title">Reviews Dashboard</h2>
+        <p class="login-card-subtitle">Monitor. Analyse. Improve.</p>
+
+        <div class="login-divider"></div>
+
+        <p class="login-welcome">Welcome back — sign in with your Google account to continue.</p>
+
+        <div id="googleSignInSlot" class="google-signin-slot"></div>
+
+        <div class="login-error" id="loginError">
+          Your Google account isn't authorized for this dashboard. Contact your admin to be added.
+        </div>
+
+        <div class="login-security-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>This is an internal tool for authorised users only. Review data is confidential and should not be shared.</span>
+        </div>
+
+        <p class="login-footnote">Need access? Contact your administrator.</p>
+      </main>
+    </section>
+
+  </div>
 
   <script src="js/auth.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleSignIn()"></script>
