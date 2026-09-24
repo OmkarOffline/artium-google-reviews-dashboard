@@ -132,25 +132,40 @@ function computeTeacherMentions(teachers, reviews) {
     .sort(function (a, b) { return b.mentions - a.mentions; });
 }
 
+// Tag categories a review's text is scanned against. Split so a teacher
+// mention reads as WHAT was actually praised (a soft skill like patience,
+// vs. a technical/expertise skill like technique) instead of a vague
+// "teacher mentioned", plus the fuller set of angles reviews tend to touch:
+// ambience, staff support, teaching style/methods, curriculum, the app,
+// performances and exams — not just quality/pricing/scheduling.
 const THEME_KEYWORDS = {
-  "teacher quality": ["teacher", "instructor", "faculty", "guru"],
-  "teacher expertise": ["expert", "skilled", "talented", "knowledgeable"],
-  "class quality": ["class", "lesson", "curriculum", "session"],
-  "ambience": ["ambience", "ambiance", "environment", "clean", "space"],
-  "pricing": ["price", "pricing", "fee", "expensive", "affordable", "cost"],
-  "staff behavior": ["staff", "front desk", "reception", "behavior", "rude", "polite"],
-  "tech-enabled experience": ["app", "technology", "tech", "online", "digital"],
-  "app experience": ["app "],
-  "learning environment": ["learning", "environment", "atmosphere"],
-  "scheduling": ["schedule", "slot", "timing", "booking", "weekend"],
-  "overall sentiment": []
+  "teacher expertise": ["expert", "skilled", "skill", "talented", "knowledgeable", "technique", "mastery", "proficient", "experienced"],
+  "teacher soft skills": ["patient", "patience", "kind", "encouraging", "friendly", "approachable", "caring", "supportive", "motivating", "warm", "calm", "attentive"],
+  "teaching style": ["engaging", "fun", "interactive", "personalized", "personalised", "disciplined", "teaching style"],
+  "teaching methods": ["teaching method", "hands-on", "hands on", "practical", "step-by-step", "step by step"],
+  "curriculum": ["curriculum", "syllabus", "course content", "program", "programme", "structured course"],
+  "ambience": ["ambience", "ambiance", "environment", "clean", "space", "atmosphere"],
+  "staff support & communication": ["front desk", "reception", "staff", "coordinator", "communication", "responsive", "admin support"],
+  "app experience": ["app", "online portal", "digital", "tracking attendance", "mobile app"],
+  "performances": ["performance", "recital", "concert", "stage", "showcase", "annual day"],
+  "exams": ["exam", "certification", "assessment", "grading test", "grade exam"],
+  "scheduling": ["schedule", "scheduling", "slot", "slots", "timing", "booking", "weekend"],
+  "pricing": ["price", "pricing", "fee", "expensive", "affordable", "cost"]
 };
+
+// Word-boundary match rather than a plain substring test — the taxonomy
+// above includes short words like "app" and "kind" that would otherwise
+// false-positive inside "approachable" or "kindergarten".
+function hasKeyword(lowerText, phrase) {
+  const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp("\\b" + escaped + "\\b", "i").test(lowerText);
+}
 
 function tagsFor(text) {
   const lower = text.toLowerCase();
   const tags = [];
   Object.keys(THEME_KEYWORDS).forEach(function (theme) {
-    const hit = THEME_KEYWORDS[theme].some(function (kw) { return kw && lower.includes(kw); });
+    const hit = THEME_KEYWORDS[theme].some(function (kw) { return kw && hasKeyword(lower, kw); });
     if (hit) tags.push(theme);
   });
   return tags.length ? tags.slice(0, 3) : ["general"];

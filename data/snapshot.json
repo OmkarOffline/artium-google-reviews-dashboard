@@ -1,5 +1,5 @@
 {
-  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes. One exception: each centre's periodToDate.priorCount is a placeholder, prorated from that month's real total (22/31 of August) rather than a true day-level count, since this mock snapshot has no per-review dates to count directly. Once the pipeline is live, scripts/refresh-data.js's computePeriodToDate() computes it exactly from each review's real createTime.",
+  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes. One exception: each centre's periodToDate.priorCount is a placeholder, prorated from that month's real total (22/31 of August) rather than a true day-level count, since this mock snapshot has no per-review dates to count directly. Once the pipeline is live, scripts/refresh-data.js's computePeriodToDate() computes it exactly from each review's real createTime. The topic taxonomy was also reworked (scripts/refresh-data.js's THEME_KEYWORDS/tagsFor) to split vague teacher mentions into teacher expertise vs. teacher soft skills, and add ambience, staff support & communication, teaching style/methods, curriculum, app experience, performances and exams as distinct angles. Each centre's September topicMentions/topThemes here were re-mapped by hand from the old category names to the closest new one (e.g. \"learning environment\" -> \"ambience\", \"staff behavior\" -> \"staff support & communication\"), keeping the same real counts \u2014 not re-counted from scratch, since this mock snapshot only has 5 sample review texts, not the full review set the old counts were built from. Once the pipeline is live, tagsFor() computes every centre's topicMentions fresh from real review text under the new taxonomy, so this hand-remapping stops being needed.",
   "lastRefreshed": "2026-09-22T09:00:00+05:30",
   "centres": {
     "alwarpet": {
@@ -39,7 +39,7 @@
         }
       ],
       "topThemes": [
-        "teacher quality",
+        "teacher expertise",
         "ambience",
         "scheduling"
       ],
@@ -75,7 +75,7 @@
           ],
           "topicMentions": [
             {
-              "topic": "teacher quality",
+              "topic": "teacher expertise",
               "count": 8
             },
             {
@@ -87,7 +87,7 @@
               "count": 4
             },
             {
-              "topic": "staff behavior",
+              "topic": "staff support & communication",
               "count": 3
             },
             {
@@ -145,7 +145,7 @@
         }
       ],
       "topThemes": [
-        "class quality",
+        "teaching methods",
         "app experience",
         "pricing"
       ],
@@ -180,23 +180,19 @@
           ],
           "topicMentions": [
             {
-              "topic": "class quality",
-              "count": 5
+              "topic": "app experience",
+              "count": 6
             },
             {
-              "topic": "app experience",
-              "count": 4
+              "topic": "teaching methods",
+              "count": 5
             },
             {
               "topic": "pricing",
               "count": 3
             },
             {
-              "topic": "tech-enabled experience",
-              "count": 2
-            },
-            {
-              "topic": "front desk",
+              "topic": "staff support & communication",
               "count": 1
             }
           ],
@@ -250,9 +246,9 @@
         }
       ],
       "topThemes": [
-        "teacher quality",
-        "learning environment",
-        "staff behavior"
+        "teacher expertise",
+        "ambience",
+        "staff support & communication"
       ],
       "aiSummary": "Consistently the highest-rated centre. Reviewers highlight individual teacher mentions frequently and describe the learning environment as premium and welcoming.",
       "teacherMentions": [
@@ -285,20 +281,20 @@
           ],
           "topicMentions": [
             {
-              "topic": "teacher quality",
+              "topic": "ambience",
               "count": 10
             },
             {
-              "topic": "learning environment",
-              "count": 7
+              "topic": "teacher expertise",
+              "count": 6
             },
             {
-              "topic": "staff behavior",
+              "topic": "staff support & communication",
               "count": 4
             },
             {
-              "topic": "overall sentiment",
-              "count": 3
+              "topic": "teacher soft skills",
+              "count": 4
             },
             {
               "topic": "scheduling",
@@ -326,8 +322,8 @@
       "date": "2026-09-20",
       "text": "Amazing experience for my daughter's Carnatic classes. The teacher is patient and skilled.",
       "tags": [
-        "teacher mentioned",
-        "class quality"
+        "teacher expertise",
+        "teacher soft skills"
       ]
     },
     {
@@ -337,7 +333,8 @@
       "text": "Lovely ambience and well-organized front desk. Scheduling a trial class was smooth.",
       "tags": [
         "ambience",
-        "staff behavior"
+        "staff support & communication",
+        "scheduling"
       ]
     },
     {
@@ -355,7 +352,7 @@
       "date": "2026-09-17",
       "text": "Best decision to enroll here. Highly recommend the guitar program.",
       "tags": [
-        "general"
+        "curriculum"
       ]
     },
     {
@@ -364,8 +361,7 @@
       "date": "2026-09-15",
       "text": "Great teachers, though weekend slots fill up fast.",
       "tags": [
-        "scheduling",
-        "teacher mentioned"
+        "scheduling"
       ]
     }
   ]
