@@ -122,11 +122,16 @@ function mixHex(hex1, hex2, t) {
   const a = hexToRgb(hex1), b = hexToRgb(hex2);
   return "rgb(" + lerp(a[0], b[0], t) + "," + lerp(a[1], b[1], t) + "," + lerp(a[2], b[2], t) + ")";
 }
+// Each band still runs from a punchy dark shade to a lighter one as the
+// percentage climbs through it (per the original spec), but the "light"
+// end is capped well short of pale/washed-out — this color doubles as
+// text color (the % label) and a fill on a light track, so it always
+// needs to stay legible on its own, not just as a decorative gradient.
 function targetBandColor(pct) {
   pct = Math.max(0, Math.min(100, pct));
-  if (pct <= 40) return mixHex("#b91c1c", "#fca5a5", pct / 40);
-  if (pct <= 70) return mixHex("#92400e", "#fde68a", (pct - 40) / 30);
-  return mixHex("#86efac", "#15803d", (pct - 70) / 30);
+  if (pct <= 40) return mixHex("#b91c1c", "#ef4444", pct / 40);
+  if (pct <= 70) return mixHex("#92400e", "#c2740a", (pct - 40) / 30);
+  return mixHex("#16a34a", "#166534", (pct - 70) / 30);
 }
 
 function trendUpIcon() {
