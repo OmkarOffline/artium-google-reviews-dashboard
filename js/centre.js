@@ -92,11 +92,12 @@ function renderCentre(centre) {
   }).join("");
 
   // Review trend chart (single series)
+  const chartColor = centreColor(centre.id);
   document.getElementById("chartLegend").innerHTML =
-    '<div class="item"><span class="swatch" style="background:#2a78d6"></span>' + centre.name + '</div>';
+    '<div class="item"><span class="swatch" style="background:' + chartColor + '"></span>' + centre.name + '</div>';
   renderGroupedBarChart(document.getElementById("chartContainer"), {
     categories: centre.monthlyBreakdown.map(function (m) { return monthLabel(m.month); }),
-    series: [{ name: centre.name, color: "#2a78d6", values: centre.monthlyBreakdown.map(function (m) { return m.count; }) }]
+    series: [{ name: centre.name, color: chartColor, values: centre.monthlyBreakdown.map(function (m) { return m.count; }) }]
   });
 
   // Monthly review breakdown (compact bar-in-list, with that month's average rating)
@@ -141,17 +142,19 @@ function renderCentre(centre) {
   // Recent reviews for this centre
   const reviews = SNAPSHOT.recentReviews.filter(function (r) { return r.centreId === centre.id; });
   const list = document.getElementById("reviewList");
+  const accent = centreColor(centre.id);
+  const tagBg = mixHex("#ffffff", accent, 0.12);
   if (!reviews.length) {
     list.innerHTML = '<div class="card" style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">No recent reviews for this centre.</div>';
   } else {
     list.innerHTML = reviews.map(function (r) {
       return (
-        '<div class="card review-row">' +
-          '<div class="review-rating">' + r.rating + '★</div>' +
+        '<div class="card review-row" style="border-left-color:' + accent + '">' +
+          '<div class="review-avatar" style="background:' + mixHex("#ffffff", accent, 0.16) + ';color:' + accent + '">' + starIcon("#eda100") + '</div>' +
           '<div class="review-body">' +
-            '<div class="review-meta">' + formatDate(r.date) + '</div>' +
-            '<p class="review-text">' + r.text + '</p>' +
-            '<div class="review-tags">' + r.tags.map(function (t) { return '<span class="theme-tag">' + t + '</span>'; }).join("") + '</div>' +
+            '<div class="review-meta">' + starsRow(r.rating) + '<span class="review-date">' + formatDate(r.date) + '</span></div>' +
+            '<p class="review-text">“' + r.text + '”</p>' +
+            '<div class="review-tags">' + r.tags.map(function (t) { return '<span class="theme-tag" style="background:' + tagBg + ';color:' + accent + '">' + t + '</span>'; }).join("") + '</div>' +
           '</div>' +
         '</div>'
       );

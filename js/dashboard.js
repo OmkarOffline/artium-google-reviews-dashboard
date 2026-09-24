@@ -206,11 +206,10 @@ function renderChart() {
   const allMonths = SNAPSHOT.centres[0].monthlyBreakdown.map(function (m) { return m.month; });
   const months = allMonths.slice(Math.max(0, allMonths.length - state.rangeMonths));
 
-  const palette = ["#2a78d6", "#eb6834", "#1baf7a"];
-  const series = centres.map(function (c, i) {
+  const series = centres.map(function (c) {
     return {
       name: c.name,
-      color: palette[SNAPSHOT.centres.indexOf(c) % palette.length],
+      color: centreColor(c.id),
       values: months.map(function (m) { return monthCountFor(c, m); })
     };
   });
@@ -243,13 +242,20 @@ function renderRecentReviews() {
 
   list.innerHTML = reviews.map(function (r) {
     const centre = centreById(SNAPSHOT, r.centreId);
+    const accent = centreColor(r.centreId);
+    const initials = centre.name.split(" ").map(function (w) { return w[0]; }).slice(0, 2).join("");
+    const tagBg = mixHex("#ffffff", accent, 0.12);
     return (
-      '<div class="card review-row">' +
-        '<div class="review-rating">' + r.rating + '★</div>' +
+      '<div class="card review-row" style="border-left-color:' + accent + '">' +
+        '<div class="review-avatar" style="background:' + mixHex("#ffffff", accent, 0.16) + ';color:' + accent + '">' + initials + '</div>' +
         '<div class="review-body">' +
-          '<div class="review-meta"><span class="centre-name">' + centre.name + '</span> &middot; ' + formatDate(r.date) + '</div>' +
-          '<p class="review-text">' + r.text + '</p>' +
-          '<div class="review-tags">' + r.tags.map(function (t) { return '<span class="theme-tag">' + t + '</span>'; }).join("") + '</div>' +
+          '<div class="review-meta">' +
+            '<span class="centre-name">' + centre.name + '</span>' +
+            starsRow(r.rating) +
+            '<span class="review-date">' + formatDate(r.date) + '</span>' +
+          '</div>' +
+          '<p class="review-text">“' + r.text + '”</p>' +
+          '<div class="review-tags">' + r.tags.map(function (t) { return '<span class="theme-tag" style="background:' + tagBg + ';color:' + accent + '">' + t + '</span>'; }).join("") + '</div>' +
         '</div>' +
       '</div>'
     );

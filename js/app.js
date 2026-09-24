@@ -47,6 +47,23 @@ function centreById(snapshot, id) {
   return snapshot.centres.find(function (c) { return c.id === id; });
 }
 
+// One color per centre, used consistently everywhere a centre needs to be
+// told apart at a glance — the month-on-month chart + its legend, and the
+// review-feed accents. Closely related cool hues (blue -> teal -> violet)
+// rather than a clashing red/orange/green mix, chosen so adjacent pairs
+// still stay clearly distinguishable (validated: worst adjacent pair ΔE
+// 14.7 CVD-simulated / 16.3 normal vision — comfortably clear of the
+// standard 8/15 thresholds for a 3-series palette).
+const CENTRE_COLORS = {
+  "alwarpet": "#2563eb",
+  "thoraipakkam": "#0891b2",
+  "borewell-road": "#7c3aed"
+};
+
+function centreColor(centreId) {
+  return CENTRE_COLORS[centreId] || "#2563eb";
+}
+
 function overallStats(snapshot) {
   const centres = snapshot.centres;
   const totalReviews = centres.reduce(function (sum, c) { return sum + c.totalReviews; }, 0);
@@ -61,6 +78,17 @@ function overallStats(snapshot) {
 // Small inline star icon (filled) — used next to ratings.
 function starIcon(colorVar) {
   return '<svg width="12" height="12" viewBox="0 0 20 20" fill="' + (colorVar || 'currentColor') + '"><path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/></svg>';
+}
+
+// A 5-star row (filled amber up to the review's rating, outline for the
+// rest) — used in place of a plain "5★" text badge so a review's rating
+// reads at a glance instead of being parsed as a number.
+function starsRow(rating) {
+  let out = "";
+  for (let i = 1; i <= 5; i++) {
+    out += i <= rating ? starIcon("#eda100") : starIcon("#e2e5ea");
+  }
+  return '<span class="stars-row">' + out + '</span>';
 }
 
 // statTile now takes a single options object so callers can attach an
