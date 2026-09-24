@@ -3,7 +3,9 @@
    Centre Detail View logic
    ========================================================================== */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  if (!requireAuth()) return;
+  await loadSnapshotData();
   document.getElementById("topbarSlot").innerHTML = renderTopbar("dashboard", SNAPSHOT);
   wireRefreshButton();
 

@@ -13,7 +13,9 @@ let nextId = Math.max.apply(null, SNAPSHOT.teacherDirectory.map(function (t) { r
 
 const state = { role: "Admin", view: "directory" };
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  if (!requireAuth()) return;
+  await loadSnapshotData();
   document.getElementById("topbarSlot").innerHTML = renderTopbar("teachers", SNAPSHOT);
   wireRefreshButton();
   populateSelects();

@@ -6,7 +6,9 @@
 let currentCentre = null;
 let currentMonth = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  if (!requireAuth()) return;
+  await loadSnapshotData();
   document.getElementById("topbarSlot").innerHTML = renderTopbar("dashboard", SNAPSHOT);
   wireRefreshButton();
 

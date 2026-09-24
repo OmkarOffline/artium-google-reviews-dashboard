@@ -8,11 +8,14 @@
 const state = {
   scope: "lifetime",       // 'lifetime' | 'month'
   centreId: "all",         // 'all' | centre id
-  monthKey: currentMonthKey(SNAPSHOT),
+  monthKey: null,
   rangeMonths: 6
 };
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  if (!requireAuth()) return;
+  await loadSnapshotData();
+  state.monthKey = currentMonthKey(SNAPSHOT);
   document.getElementById("topbarSlot").innerHTML = renderTopbar("dashboard", SNAPSHOT);
   wireRefreshButton();
   populateMonthSelect();

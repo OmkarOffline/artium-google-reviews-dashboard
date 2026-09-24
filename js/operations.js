@@ -13,7 +13,9 @@ let nextId = Math.max.apply(null, SNAPSHOT.operationsDirectory.map(function (p) 
 
 const state = { role: "Admin" };
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  if (!requireAuth()) return;
+  await loadSnapshotData();
   document.getElementById("topbarSlot").innerHTML = renderTopbar("operations", SNAPSHOT);
   wireRefreshButton();
   populateCentreSelect();

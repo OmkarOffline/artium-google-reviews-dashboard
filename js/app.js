@@ -118,11 +118,12 @@ function wireRefreshButton() {
   const btn = document.getElementById("refreshBtn");
   if (!btn) return;
   btn.addEventListener("click", function () {
-    // Placeholder: real refresh will call the Google My Business API and
-    // re-save the snapshot. For now this just simulates the action so the
-    // interaction feels right while we build the rest of the views.
+    // This does NOT call Google live — that pull only happens on the
+    // scheduled GitHub Action's cadence (see scripts/refresh-data.js).
+    // This button just re-reads data/snapshot.json in case the Action has
+    // run more recently than this page load, and re-renders from it.
     btn.classList.add("spinning");
-    setTimeout(function () { btn.classList.remove("spinning"); }, 700);
+    window.location.reload();
   });
   const signOutBtn = document.getElementById("signOutBtn");
   if (signOutBtn) {

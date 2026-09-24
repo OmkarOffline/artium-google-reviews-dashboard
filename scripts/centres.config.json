@@ -1,0 +1,7 @@
+{
+  "_instructions": "Fill in the real Google Business Profile resource name for each centre below, once you know it. You'll get these from the Business Profile API itself — see scripts/list-locations.js, which you can run after Google API access is approved to print each location's exact resource name (looks like 'accounts/1234567890/locations/9876543210'). Replace the empty 'name' values with those, one per centre. Do not change the keys (alwarpet / thoraipakkam / borewell-road) — they must match the centre ids used everywhere else in the dashboard.",
+
+  "alwarpet": { "name": "" },
+  "thoraipakkam": { "name": "" },
+  "borewell-road": { "name": "" }
+}
