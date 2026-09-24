@@ -1,5 +1,5 @@
 {
-  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes. One exception: each centre's periodToDate.priorCount is a placeholder, prorated from that month's real total (22/31 of August) rather than a true day-level count, since this mock snapshot has no per-review dates to count directly. Once the pipeline is live, scripts/refresh-data.js's computePeriodToDate() computes it exactly from each review's real createTime. The topic taxonomy was also reworked (scripts/refresh-data.js's THEME_KEYWORDS/tagsFor) to split vague teacher mentions into teacher expertise vs. teacher soft skills, and add ambience, staff support & communication, teaching style/methods, curriculum, app experience, performances and exams as distinct angles. Each centre's September topicMentions/topThemes here were re-mapped by hand from the old category names to the closest new one (e.g. \"learning environment\" -> \"ambience\", \"staff behavior\" -> \"staff support & communication\"), keeping the same real counts \u2014 not re-counted from scratch, since this mock snapshot only has 5 sample review texts, not the full review set the old counts were built from. Once the pipeline is live, tagsFor() computes every centre's topicMentions fresh from real review text under the new taxonomy, so this hand-remapping stops being needed.",
+  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes. One exception: each centre's periodToDate.priorCount is a placeholder, prorated from that month's real total (22/31 of August) rather than a true day-level count, since this mock snapshot has no per-review dates to count directly. Once the pipeline is live, scripts/refresh-data.js's computePeriodToDate() computes it exactly from each review's real createTime. The topic taxonomy was also reworked (scripts/refresh-data.js's THEME_KEYWORDS/tagsFor) to split vague teacher mentions into teacher expertise vs. teacher soft skills, and add ambience, staff support & communication, teaching style/methods, curriculum, app experience, performances and exams as distinct angles. Each centre's September topicMentions/topThemes here were re-mapped by hand from the old category names to the closest new one (e.g. \"learning environment\" -> \"ambience\", \"staff behavior\" -> \"staff support & communication\"), keeping the same real counts \u2014 not re-counted from scratch, since this mock snapshot only has 5 sample review texts, not the full review set the old counts were built from. Once the pipeline is live, tagsFor() computes every centre's topicMentions fresh from real review text under the new taxonomy, so this hand-remapping stops being needed. Each centre's teacherMentions names/courses were also swapped from the old placeholder roster to Omkar's real 18-teacher list (Sep 2026, see js/data.js's teacherDirectory), keeping the same mention counts and relative ranking — each old placeholder name was mapped to a real teacher at that centre teaching the closest matching course (e.g. Alwarpet's old Carnatic Classical placeholder mapped to Pooja Jagan, who teaches South Vocals there). This is a hand-remap of mock data, not a real re-count — once the pipeline is live, tagsFor()/refresh-data.js will attribute real teacher mentions directly from review text against the real roster.",
   "lastRefreshed": "2026-09-22T09:00:00+05:30",
   "centres": {
     "alwarpet": {
@@ -46,18 +46,18 @@
       "aiSummary": "Reviewers consistently praise teacher expertise and the calm, well-maintained ambience at Alwarpet. A recurring minor complaint is scheduling flexibility for working parents.",
       "teacherMentions": [
         {
-          "name": "Priya Ramanathan",
-          "course": "Carnatic Classical",
+          "name": "Pooja Jagan",
+          "course": "South Vocals",
           "mentions": 9
         },
         {
-          "name": "Arjun Nair",
+          "name": "Boja",
           "course": "Guitar",
           "mentions": 5
         },
         {
-          "name": "Divya Krishnan",
-          "course": "PFM - Tamil",
+          "name": "Rajashree",
+          "course": "South Vocals",
           "mentions": 3
         }
       ],
@@ -152,12 +152,12 @@
       "aiSummary": "Strong sentiment around class quality and the tech-enabled learning experience. A few reviews mention pricing as a consideration relative to nearby alternatives.",
       "teacherMentions": [
         {
-          "name": "Karthik Subramaniam",
+          "name": "Balu",
           "course": "Keyboard",
           "mentions": 6
         },
         {
-          "name": "Sneha Iyer",
+          "name": "Shradhha",
           "course": "Western Vocals",
           "mentions": 4
         },
@@ -253,18 +253,18 @@
       "aiSummary": "Consistently the highest-rated centre. Reviewers highlight individual teacher mentions frequently and describe the learning environment as premium and welcoming.",
       "teacherMentions": [
         {
-          "name": "Ananya Rao",
-          "course": "Hindustani Classical",
+          "name": "Prachita Patil",
+          "course": "North Vocals",
           "mentions": 11
         },
         {
-          "name": "Vikram Shetty",
+          "name": "Gagan Kumar",
           "course": "Guitar",
           "mentions": 6
         },
         {
-          "name": "Meera Pillai",
-          "course": "Carnatic Classical",
+          "name": "Vrinda Pillai",
+          "course": "South Vocals",
           "mentions": 4
         }
       ],

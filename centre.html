@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Centre Detail — Artium Academy Reviews</title>
-  <link rel="stylesheet" href="css/styles.css?v=12" />
+  <link rel="stylesheet" href="css/styles.css?v=14" />
 </head>
 <body>
   <div class="app-shell">
@@ -33,19 +33,22 @@
 
       <section class="page-section two-col">
         <div class="card ai-summary-card">
-          <div class="ai-summary-label">✦ AI summary</div>
+          <div class="ai-summary-card-head">
+            <div class="ai-summary-icon">✦</div>
+            <div class="ai-summary-label">AI summary</div>
+          </div>
           <p id="aiSummaryText" class="ai-summary-text"></p>
           <div class="trending-topics-label" id="trendingTopicsLabel" style="display:none;"></div>
           <div class="theme-tags" id="themeTags"></div>
         </div>
 
         <div class="card" style="padding:20px;">
-          <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Centre ownership</h2></div>
-          <div class="info-list" id="ownerInfo"></div>
+          <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Team</h2></div>
+          <div class="team-list" id="teamInfo"></div>
         </div>
       </section>
 
-      <section class="page-section two-col">
+      <section class="page-section three-col">
         <div class="card chart-card">
           <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Review trend</h2></div>
           <div class="chart-legend" id="chartLegend"></div>
@@ -56,11 +59,9 @@
           <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Monthly breakdown</h2></div>
           <div class="month-breakdown-list" id="monthBreakdownList"></div>
         </div>
-      </section>
 
-      <section class="page-section">
-        <div class="section-heading"><h2>Teacher mentions</h2></div>
         <div class="card" style="padding:20px;">
+          <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Teacher mentions</h2></div>
           <div class="mentions-list" id="mentionsList"></div>
         </div>
       </section>

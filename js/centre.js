@@ -61,19 +61,42 @@ function renderCentre(centre) {
       caption: (monthCount > 0 ? "+" + monthCount + " this month" : "No new reviews this month") + " · Lifetime"
     }) +
     statTile({
-      label: "New reviews", value: periodCurrent, unit: "/ " + centre.monthlyTarget,
+      label: "New reviews", value: periodCurrent,
       icon: trendIcon(), iconBg: "#e4f7ec", tint: "#e4f7eccc",
       delta: (periodDelta === null || !hasPeriodData) ? null : deltaFrom(periodDelta, Math.abs(periodDelta), periodRangeLabel(centre.periodToDate.asOfDate, -1)),
       caption: hasPeriodData ? null : monthLabel(monthKey) + " so far"
     }) +
+    // The headline number here is the completion %, not the static target
+    // constant — a tile whose big number never changes isn't telling the
+    // reader anything a caption couldn't, and it matches how the Dashboard's
+    // own "Target completion" tile is built.
     statTile({
-      label: "Monthly target", value: centre.monthlyTarget,
+      label: "Target completion", value: pct, unit: "%",
       icon: targetChipIcon(), iconBg: "#f2e9ff", tint: "#f2e9ffcc",
-      caption: "Owned by " + centre.owner.name + " · " + centre.owner.role,
+      caption: monthCount + " of " + centre.monthlyTarget + " target · Owned by " + centre.owner.name,
       progressPct: pct
     });
 
   document.getElementById("aiSummaryText").textContent = centre.aiSummary;
+
+  // Team — centre manager + academic counsellor. Only rendered for centres
+  // where those names have actually been provided; no placeholder names.
+  const teamEntries = [];
+  if (centre.team) {
+    if (centre.team.manager) teamEntries.push({ role: "Centre Manager", name: centre.team.manager });
+    if (centre.team.counsellor) teamEntries.push({ role: "Academic Counsellor", name: centre.team.counsellor });
+  }
+  document.getElementById("teamInfo").innerHTML = teamEntries.length
+    ? teamEntries.map(function (t) {
+        const initials = t.name.split(" ").map(function (p) { return p[0]; }).slice(0, 2).join("");
+        return (
+          '<div class="team-row">' +
+            '<div class="avatar">' + initials + '</div>' +
+            '<div class="info"><div class="name">' + t.name + '</div><div class="role">' + t.role + '</div></div>' +
+          '</div>'
+        );
+      }).join("")
+    : '<div class="team-empty">Team details not yet added.</div>';
 
   // "Trending topics" — this month's topic mentions (already counted, so
   // "trending" means most-discussed right now, not a fabricated up/down
@@ -114,12 +137,6 @@ function renderCentre(centre) {
     );
   }).join("");
 
-  // Ownership
-  document.getElementById("ownerInfo").innerHTML =
-    '<div class="info-row"><span class="k">Owner</span><span class="v">' + centre.owner.name + '</span></div>' +
-    '<div class="info-row"><span class="k">Email</span><span class="v">' + centre.owner.email + '</span></div>' +
-    '<div class="info-row"><span class="k">Role</span><span class="v">' + centre.owner.role + '</span></div>' +
-    '<div class="info-row"><span class="k">Cadence</span><span class="cadence-chip">' + centre.owner.cadence + '</span></div>';
 
   // Teacher mentions — ranked by mention count, with a bar showing relative share
   const rankedMentions = centre.teacherMentions.slice().sort(function (a, b) { return b.mentions - a.mentions; });
@@ -139,10 +156,14 @@ function renderCentre(centre) {
     );
   }).join("");
 
-  // Recent reviews for this centre
+  // Recent reviews for this centre — same markup/behaviour as the main
+  // Dashboard's Recent reviews section (renderRecentReviews() in
+  // dashboard.js), minus the per-card centre-name label, which would just
+  // repeat this page's own title.
   const reviews = SNAPSHOT.recentReviews.filter(function (r) { return r.centreId === centre.id; });
   const list = document.getElementById("reviewList");
   const accent = centreColor(centre.id);
+  const initials = centre.name.split(" ").map(function (w) { return w[0]; }).slice(0, 2).join("");
   const tagBg = mixHex("#ffffff", accent, 0.12);
   if (!reviews.length) {
     list.innerHTML = '<div class="card" style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">No recent reviews for this centre.</div>';
@@ -150,7 +171,7 @@ function renderCentre(centre) {
     list.innerHTML = reviews.map(function (r) {
       return (
         '<div class="card review-row" style="border-left-color:' + accent + '">' +
-          '<div class="review-avatar" style="background:' + mixHex("#ffffff", accent, 0.16) + ';color:' + accent + '">' + starIcon("#eda100") + '</div>' +
+          '<div class="review-avatar" style="background:' + mixHex("#ffffff", accent, 0.16) + ';color:' + accent + '">' + initials + '</div>' +
           '<div class="review-body">' +
             '<div class="review-meta">' + starsRow(r.rating) + '<span class="review-date">' + formatDate(r.date) + '</span></div>' +
             '<p class="review-text">“' + r.text + '”</p>' +

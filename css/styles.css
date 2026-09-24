@@ -1020,6 +1020,28 @@ button {
 
 .ai-summary-card {
   padding: var(--space-5) var(--space-5) var(--space-6);
+  background: linear-gradient(160deg, #eef3ff 0%, var(--surface) 45%);
+  border: 1px solid var(--accent-light);
+}
+
+.ai-summary-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.ai-summary-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.18);
 }
 
 .ai-summary-label {
@@ -1031,7 +1053,6 @@ button {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: var(--space-3);
 }
 
 .ai-summary-text {
@@ -1039,6 +1060,61 @@ button {
   line-height: 1.65;
   color: var(--text-secondary);
   margin: 0;
+}
+
+/* ---- Team card (Centre Detail page) ---- */
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.team-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.team-row:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-3);
+}
+
+.team-row .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.team-row .info {
+  flex: 1;
+  min-width: 0;
+}
+
+.team-row .role {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.team-row .name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.team-empty {
+  font-size: 12.5px;
+  color: var(--text-muted);
 }
 
 .centre-card-footer {
@@ -1245,7 +1321,33 @@ button {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--space-4);
-  align-items: start;
+  align-items: stretch;
+}
+
+.two-col .card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The narrower side card in each row (team) tends to have less content
+   than its partner — center it in the stretched card instead of leaving
+   it top-anchored with dead space at the bottom. */
+.two-col .card:last-child .team-list {
+  flex: 1;
+  justify-content: center;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.three-col .card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
 }
 
 .info-list {
@@ -1403,7 +1505,13 @@ button {
 
 @media (max-width: 900px) {
   .two-col { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr; }
   .detail-header { flex-direction: column; }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .three-col { grid-template-columns: 1fr 1fr; }
+  .three-col .card:last-child { grid-column: span 2; }
 }
 
 /* ==========================================================================

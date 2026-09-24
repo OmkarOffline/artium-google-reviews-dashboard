@@ -29,6 +29,7 @@ const SNAPSHOT = {
       gmbUrl: "https://maps.app.goo.gl/jeTg64JXCfN9ZZ2e8",
       monthlyTarget: 20,
       owner: { name: "Monika", email: "monika@artiumacademy.com", role: "Operations Owner", cadence: "Weekly" },
+      team: { manager: "Mahalakshmi", counsellor: "Poojalakshmi" },
       // -- filled in by loadSnapshotData() --
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
       monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
@@ -41,6 +42,7 @@ const SNAPSHOT = {
       gmbUrl: "https://maps.app.goo.gl/NojWW5T3S64eqqUk9",
       monthlyTarget: 15,
       owner: { name: "Padma", email: "padma@artiumacademy.com", role: "Operations Owner", cadence: "Fortnightly" },
+      team: { manager: "Padma Priya", counsellor: "Devika" },
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
       monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
     },
@@ -52,6 +54,7 @@ const SNAPSHOT = {
       gmbUrl: "https://maps.app.goo.gl/RF4yssx7sJh6tUuk6",
       monthlyTarget: 18,
       owner: { name: "Monika", email: "monika@artiumacademy.com", role: "Operations Owner", cadence: "Weekly" },
+      team: { manager: "Dipali Modhvadia", counsellor: "Sneha KS" },
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
       monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
     }
@@ -71,25 +74,36 @@ const SNAPSHOT = {
 
   // Course dropdown values (fixed list from the brief).
   courseOptions: [
-    "PFM - Tamil", "PFM - Hindi", "Carnatic Classical", "Hindustani Classical",
-    "Western Vocals", "Guitar", "Keyboard"
+    "South Vocals", "North Vocals", "Western Vocals", "Guitar", "Keyboard"
   ],
 
-  // Teacher Directory — PLACEHOLDER: replace with your real teacher roster.
+  // Teacher Directory — real roster provided by Omkar (Sep 2026). No email
+  // addresses were provided, so those are left blank rather than guessed —
+  // update via the Teacher Directory screen once real addresses are known.
   // Mention counts are looked up live from each centre's teacherMentions
   // list (matched by name, scoped to the teacher's own centre only — this
   // is the "centre-specific matching" the brief calls for, so a teacher at
   // one centre never picks up mentions meant for a same-named teacher
   // elsewhere).
   teacherDirectory: [
-    { id: 1, name: "Priya Ramanathan", email: "priya.ramanathan@artiumacademy.com", centreId: "alwarpet", course1: "Carnatic Classical", course2: "Not Applicable" },
-    { id: 2, name: "Arjun Nair", email: "arjun.nair@artiumacademy.com", centreId: "alwarpet", course1: "Guitar", course2: "Not Applicable" },
-    { id: 3, name: "Divya Krishnan", email: "divya.krishnan@artiumacademy.com", centreId: "alwarpet", course1: "PFM - Tamil", course2: "Not Applicable" },
-    { id: 4, name: "Karthik Subramaniam", email: "karthik.subramaniam@artiumacademy.com", centreId: "thoraipakkam", course1: "Keyboard", course2: "Western Vocals" },
-    { id: 5, name: "Sneha Iyer", email: "sneha.iyer@artiumacademy.com", centreId: "thoraipakkam", course1: "Western Vocals", course2: "Not Applicable" },
-    { id: 6, name: "Ananya Rao", email: "ananya.rao@artiumacademy.com", centreId: "borewell-road", course1: "Hindustani Classical", course2: "Not Applicable" },
-    { id: 7, name: "Vikram Shetty", email: "vikram.shetty@artiumacademy.com", centreId: "borewell-road", course1: "Guitar", course2: "Not Applicable" },
-    { id: 8, name: "Meera Pillai", email: "meera.pillai@artiumacademy.com", centreId: "borewell-road", course1: "Carnatic Classical", course2: "PFM - Hindi" }
+    { id: 1, name: "Pooja Jagan", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 2, name: "Rajashree", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 3, name: "Anila", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 4, name: "Vishnu", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 5, name: "Boja", email: "", centreId: "alwarpet", course1: "Guitar", course2: "Not Applicable" },
+    { id: 6, name: "Suriya Kumar", email: "", centreId: "alwarpet", course1: "Keyboard", course2: "Not Applicable" },
+    { id: 7, name: "Alex George", email: "", centreId: "thoraipakkam", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 8, name: "Sobitha", email: "", centreId: "thoraipakkam", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 9, name: "Jisna", email: "", centreId: "thoraipakkam", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 10, name: "Dharshana", email: "", centreId: "thoraipakkam", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 11, name: "Shradhha", email: "", centreId: "thoraipakkam", course1: "Western Vocals", course2: "Not Applicable" },
+    { id: 12, name: "Shiva", email: "", centreId: "thoraipakkam", course1: "Guitar", course2: "Not Applicable" },
+    { id: 13, name: "Balu", email: "", centreId: "thoraipakkam", course1: "Keyboard", course2: "Not Applicable" },
+    { id: 14, name: "Vrinda Pillai", email: "", centreId: "borewell-road", course1: "South Vocals", course2: "Not Applicable" },
+    { id: 15, name: "Prachita Patil", email: "", centreId: "borewell-road", course1: "North Vocals", course2: "Not Applicable" },
+    { id: 16, name: "Konoak Phom", email: "", centreId: "borewell-road", course1: "Western Vocals", course2: "Not Applicable" },
+    { id: 17, name: "Gagan Kumar", email: "", centreId: "borewell-road", course1: "Guitar", course2: "Not Applicable" },
+    { id: 18, name: "Joel Devraj", email: "", centreId: "borewell-road", course1: "Keyboard", course2: "Not Applicable" }
   ]
 };
 
