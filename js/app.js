@@ -165,72 +165,14 @@ function navIcon(name) {
   return '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">' + (icons[name] || "") + '</svg>';
 }
 
-// A small self-authored flat-vector "desk scene" — laptop with a growth
-// graph, guitar, plant, the real Artium mark on a mug, headphones and a
-// notebook — sitting above the sidebar footer. Stands in for a photoreal
-// illustration (no image-generation tool is available in this session);
-// built entirely from inline shapes so it needs no external asset.
+// The real desk-scene illustration Omkar generated (laptop with a Google
+// rating/growth graph, guitar, plant, the Artium mug, headphones and a
+// notebook), cropped from the mockup and dropped in as a real image asset —
+// see assets/sidebar-illustration.jpg.
 function sidebarIllustration() {
   return (
     '<div class="sidebar-illustration">' +
-      '<svg viewBox="0 0 208 96" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '<defs>' +
-          '<clipPath id="mugLogoClip"><circle cx="171" cy="72" r="6.5"/></clipPath>' +
-        '</defs>' +
-
-        '<line x1="0" y1="88" x2="208" y2="88" stroke="var(--border)" stroke-width="1.5"/>' +
-
-        // guitar, leaning behind the laptop
-        '<g transform="translate(20,20) rotate(18)" opacity="0.9">' +
-          '<rect x="-2" y="-34" width="5" height="34" rx="2.5" fill="#c8894a"/>' +
-          '<circle cx="0" cy="6" r="12" fill="#e3a86b"/>' +
-          '<circle cx="0" cy="24" r="16" fill="#dc9a57"/>' +
-          '<circle cx="0" cy="24" r="5.5" fill="#8a5a2b"/>' +
-          '<line x1="0" y1="-34" x2="0" y2="38" stroke="#5c3a1a" stroke-width="0.8"/>' +
-        '</g>' +
-
-        // notebook + pen, front-left
-        '<g transform="translate(10,70)">' +
-          '<rect x="0" y="0" width="34" height="18" rx="2" fill="var(--surface)" stroke="var(--border)" stroke-width="1.2"/>' +
-          '<line x1="5" y1="6" x2="29" y2="6" stroke="var(--border)" stroke-width="1.2"/>' +
-          '<line x1="5" y1="10.5" x2="24" y2="10.5" stroke="var(--border)" stroke-width="1.2"/>' +
-          '<line x1="5" y1="15" x2="27" y2="15" stroke="var(--border)" stroke-width="1.2"/>' +
-          '<rect x="26" y="-10" width="3" height="20" rx="1.5" fill="#2563eb" transform="rotate(28 27.5 0)"/>' +
-        '</g>' +
-
-        // laptop, centre
-        '<g transform="translate(64,28)">' +
-          '<rect x="0" y="0" width="58" height="40" rx="3" fill="#1f2937"/>' +
-          '<rect x="3" y="3" width="52" height="34" rx="1.5" fill="#111827"/>' +
-          '<polyline points="8,28 18,20 27,24 37,12 49,8" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-          '<circle cx="49" cy="8" r="2.4" fill="#60a5fa"/>' +
-          '<path d="M-4 40 L62 40 L57 47 L1 47 Z" fill="#cbd5e1"/>' +
-        '</g>' +
-
-        // headphones draped near the laptop
-        '<g transform="translate(96,4)" opacity="0.9">' +
-          '<path d="M2 16 A14 14 0 0 1 30 16" fill="none" stroke="#9aa4b2" stroke-width="2.4" stroke-linecap="round"/>' +
-          '<rect x="-1" y="14" width="7" height="11" rx="3" fill="#9aa4b2"/>' +
-          '<rect x="26" y="14" width="7" height="11" rx="3" fill="#9aa4b2"/>' +
-        '</g>' +
-
-        // mug with the real Artium mark
-        '<g transform="translate(158,52)">' +
-          '<rect x="0" y="8" width="26" height="24" rx="4" fill="var(--surface)" stroke="var(--border)" stroke-width="1.4"/>' +
-          '<path d="M26 14 h6 a5 5 0 0 1 0 10 h-6" fill="none" stroke="var(--border)" stroke-width="1.4"/>' +
-        '</g>' +
-        '<g clip-path="url(#mugLogoClip)">' +
-          '<image href="assets/logo-mark.jpg" x="164.5" y="65.5" width="13" height="13"/>' +
-        '</g>' +
-        '<circle cx="171" cy="72" r="6.5" fill="none" stroke="var(--surface)" stroke-width="1.4"/>' +
-
-        // small plant, far right
-        '<g transform="translate(188,58)">' +
-          '<path d="M0 26 L4 10 L14 10 L18 26 Z" fill="#cbd5e1"/>' +
-          '<path d="M9 10 C 2 4, 2 -6, 9 -10 C 12 -3, 11 5, 9 10 Z" fill="#4c9a5f"/>' +
-          '<path d="M9 10 C 15 5, 17 -3, 14 -9 C 9 -6, 7 1, 9 10 Z" fill="#3f8552"/>' +
-        '</g>' +
-      '</svg>' +
+      '<img src="assets/sidebar-illustration.jpg" alt="" />' +
     '</div>'
   );
 }

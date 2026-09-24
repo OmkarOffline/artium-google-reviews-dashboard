@@ -530,14 +530,16 @@ button {
 .sidebar-illustration {
   position: relative;
   z-index: 1;
-  padding: 0 var(--space-4);
   margin-top: var(--space-2);
+  overflow: hidden;
 }
 
-.sidebar-illustration svg {
+.sidebar-illustration img {
   display: block;
   width: 100%;
   height: auto;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 34px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 34px);
 }
 
 .sidebar-footer {
