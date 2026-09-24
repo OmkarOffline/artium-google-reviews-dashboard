@@ -1,5 +1,5 @@
 {
-  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes.",
+  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes. One exception: each centre's periodToDate.priorCount is a placeholder, prorated from that month's real total (22/31 of August) rather than a true day-level count, since this mock snapshot has no per-review dates to count directly. Once the pipeline is live, scripts/refresh-data.js's computePeriodToDate() computes it exactly from each review's real createTime.",
   "lastRefreshed": "2026-09-22T09:00:00+05:30",
   "centres": {
     "alwarpet": {
@@ -101,6 +101,11 @@
             "negative": 7
           }
         }
+      },
+      "periodToDate": {
+        "asOfDate": "2026-09-22",
+        "currentCount": 14,
+        "priorCount": 11
       }
     },
     "thoraipakkam": {
@@ -201,6 +206,11 @@
             "negative": 11
           }
         }
+      },
+      "periodToDate": {
+        "asOfDate": "2026-09-22",
+        "currentCount": 9,
+        "priorCount": 8
       }
     },
     "borewell-road": {
@@ -301,6 +311,11 @@
             "negative": 3
           }
         }
+      },
+      "periodToDate": {
+        "asOfDate": "2026-09-22",
+        "currentCount": 19,
+        "priorCount": 11
       }
     }
   },

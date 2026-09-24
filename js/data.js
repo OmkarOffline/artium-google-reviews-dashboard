@@ -31,7 +31,7 @@ const SNAPSHOT = {
       owner: { name: "Monika", email: "monika@artiumacademy.com", role: "Operations Owner", cadence: "Weekly" },
       // -- filled in by loadSnapshotData() --
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
-      monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}
+      monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
     },
     {
       id: "thoraipakkam",
@@ -42,7 +42,7 @@ const SNAPSHOT = {
       monthlyTarget: 15,
       owner: { name: "Padma", email: "padma@artiumacademy.com", role: "Operations Owner", cadence: "Fortnightly" },
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
-      monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}
+      monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
     },
     {
       id: "borewell-road",
@@ -53,7 +53,7 @@ const SNAPSHOT = {
       monthlyTarget: 18,
       owner: { name: "Monika", email: "monika@artiumacademy.com", role: "Operations Owner", cadence: "Weekly" },
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
-      monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}
+      monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
     }
   ],
 

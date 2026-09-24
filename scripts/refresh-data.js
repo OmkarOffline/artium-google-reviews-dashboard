@@ -90,6 +90,30 @@ function computeMonthlyBreakdown(reviews, now, fallbackRating) {
   });
 }
 
+// Period-to-date vs the same date range last month (e.g. reviews from the
+// 1st to today, compared with the 1st to the same day-of-month last month)
+// — a fair apples-to-apples comparison rather than a full month vs a
+// still-in-progress one. Computed from each review's real createTime, so
+// it's exact once this pipeline is live; asOfDate is stored alongside the
+// counts so the dashboard always labels them against the day they were
+// actually counted to, not whatever day the browser happens to load on.
+function computePeriodToDate(reviews, now) {
+  const day = now.getDate();
+  const curMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const priorMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const priorCutoff = new Date(now.getFullYear(), now.getMonth() - 1, day, 23, 59, 59, 999);
+
+  let currentCount = 0, priorCount = 0;
+  reviews.forEach(function (r) {
+    const d = new Date(r.createTime);
+    if (d >= curMonthStart && d <= now) currentCount++;
+    else if (d >= priorMonthStart && d <= priorCutoff) priorCount++;
+  });
+
+  const asOfDate = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+  return { asOfDate: asOfDate, currentCount: currentCount, priorCount: priorCount };
+}
+
 // Centre-specific fuzzy-ish matching: a teacher is only ever matched
 // against reviews at their own centre, by case-insensitive name search
 // against the review text.
@@ -242,6 +266,7 @@ async function main() {
     const monthlyBreakdown = computeMonthlyBreakdown(reviews, now, previous.rating);
     const currentMonthReviews = (monthlyBreakdown.find(function (m) { return m.month === currentMonthKey; }) || {}).count || 0;
     const thisMonthReviews = reviews.filter(function (r) { return monthKeyOf(r.createTime) === currentMonthKey; });
+    const periodToDate = computePeriodToDate(reviews, now);
 
     const teachers = SNAPSHOT.teacherDirectory.filter(function (t) { return t.centreId === centre.id; });
     const teacherMentions = computeTeacherMentions(teachers, reviews);
@@ -258,6 +283,7 @@ async function main() {
       rating: averageRating != null ? averageRating : (previous.rating || 0),
       totalReviews: totalReviewCount != null ? totalReviewCount : reviews.length,
       currentMonthReviews: currentMonthReviews,
+      periodToDate: periodToDate,
       monthlyBreakdown: monthlyBreakdown,
       topThemes: lifetimeAi ? lifetimeAi.topThemes : (previous.topThemes || []),
       aiSummary: lifetimeAi ? lifetimeAi.aiSummary : (previous.aiSummary || ""),

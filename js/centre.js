@@ -40,27 +40,35 @@ function renderCentre(centre) {
   const monthIdx = centre.monthlyBreakdown.findIndex(function (m) { return m.month === monthKey; });
   const prevEntry = monthIdx > 0 ? centre.monthlyBreakdown[monthIdx - 1] : null;
   const ratingDelta = prevEntry ? Math.round((centre.rating - prevEntry.rating) * 10) / 10 : null;
-  const reviewsDelta = prevEntry ? (monthCount - prevEntry.count) : null;
+
+  // "New reviews" — period-to-date vs the same date range last month,
+  // computed by the data pipeline from real review timestamps (see
+  // dashboard.js for the matching logic/comment). Falls back to the plain
+  // month-so-far count until periodToDate exists on the snapshot.
+  const hasPeriodData = !!centre.periodToDate;
+  const periodCurrent = hasPeriodData ? centre.periodToDate.currentCount : monthCount;
+  const periodDelta = hasPeriodData ? (centre.periodToDate.currentCount - centre.periodToDate.priorCount) : null;
 
   document.getElementById("statGrid").innerHTML =
     statTile({
       label: "Google rating", value: centre.rating.toFixed(1),
-      icon: starIcon("#eda100"), iconBg: "#fdf3d9",
+      icon: starIcon("#eda100"), iconBg: "#fdf3d9", tint: "#fdf3d9cc",
       delta: ratingDelta === null ? null : deltaFrom(ratingDelta, Math.abs(ratingDelta).toFixed(1), monthLabel(prevEntry.month))
     }) +
     statTile({
       label: "Total reviews", value: centre.totalReviews.toLocaleString("en-IN"),
-      icon: reviewsIcon(), iconBg: "var(--accent-light)",
+      icon: reviewsIcon(), iconBg: "var(--accent-light)", tint: "#eaf1ffcc",
       caption: (monthCount > 0 ? "+" + monthCount + " this month" : "No new reviews this month") + " · Lifetime"
     }) +
     statTile({
-      label: monthLabel(monthKey) + " reviews", value: monthCount, unit: "/ " + centre.monthlyTarget,
-      icon: trendIcon(), iconBg: "#e4f7ec",
-      delta: reviewsDelta === null ? null : deltaFrom(reviewsDelta, Math.abs(reviewsDelta), monthLabel(prevEntry.month))
+      label: "New reviews", value: periodCurrent, unit: "/ " + centre.monthlyTarget,
+      icon: trendIcon(), iconBg: "#e4f7ec", tint: "#e4f7eccc",
+      delta: (periodDelta === null || !hasPeriodData) ? null : deltaFrom(periodDelta, Math.abs(periodDelta), periodRangeLabel(centre.periodToDate.asOfDate, -1)),
+      caption: hasPeriodData ? null : monthLabel(monthKey) + " so far"
     }) +
     statTile({
       label: "Monthly target", value: centre.monthlyTarget,
-      icon: targetChipIcon(), iconBg: "#f2e9ff",
+      icon: targetChipIcon(), iconBg: "#f2e9ff", tint: "#f2e9ffcc",
       caption: "Owned by " + centre.owner.name + " · " + centre.owner.role,
       progressPct: pct
     });

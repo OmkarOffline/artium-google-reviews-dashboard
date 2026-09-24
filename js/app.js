@@ -18,6 +18,19 @@ function currentMonthKey(snapshot) {
   return snapshot.lastRefreshed.slice(0, 7);
 }
 
+const SHORT_MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// "1–22 Sep" for the month asOfDate falls in, or the month before it when
+// monthOffset is -1. asOfDate always comes from the snapshot (the day the
+// data pipeline last pulled reviews), never the viewer's live clock — the
+// counts it's labelling were only ever counted up to that day.
+function periodRangeLabel(asOfDate, monthOffset) {
+  const parts = asOfDate.split("-").map(Number);
+  const day = parts[2];
+  const dt = new Date(parts[0], parts[1] - 1 + (monthOffset || 0), 1);
+  return "1–" + day + " " + SHORT_MONTH_LABELS[dt.getMonth()];
+}
+
 function formatDate(iso) {
   const d = new Date(iso + "T00:00:00");
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -75,8 +88,12 @@ function statTile(opts) {
   const progress = (opts.progressPct !== undefined && opts.progressPct !== null)
     ? '<div class="stat-tile-progress"><div class="fill" style="width:' + Math.min(100, Math.max(0, opts.progressPct)) + '%;background:' + targetBandColor(opts.progressPct) + '"></div></div>'
     : "";
+  // A very subtle per-tile tint, matching the icon's own color family, so
+  // the row of tiles reads as distinct scorecards rather than 4 identical
+  // white boxes — kept light enough to stay inside the app's plain-card look.
+  const tintStyle = opts.tint ? ' style="background:linear-gradient(148deg,' + opts.tint + ' 0%, var(--surface) 62%)"' : "";
   return (
-    '<div class="card stat-tile">' +
+    '<div class="card stat-tile"' + tintStyle + '>' +
       iconChip +
       '<div class="label">' + opts.label + '</div>' +
       '<div class="value">' + opts.value + unit + '</div>' +

@@ -108,27 +108,39 @@ function renderStatTiles() {
   const ratingDelta = (hasPrevMonth && prevAvgRating !== null)
     ? (Math.round((avgRating - prevAvgRating) * 10) / 10)
     : null;
-  const reviewsDelta = hasPrevMonth ? (monthReviews - prevReviews) : null;
+
+  // "New reviews" — a true period-to-date comparison (e.g. 1–22 Sep vs
+  // 1–22 Aug), not a hardcoded label: both counts and the date they're
+  // cut off at come from the snapshot's periodToDate field, computed by
+  // the data pipeline against real review timestamps at refresh time. It
+  // only shows once every selected centre has that field.
+  const hasPeriodData = centres.length > 0 && centres.every(function (c) { return !!c.periodToDate; });
+  const periodCurrent = hasPeriodData ? centres.reduce(function (s, c) { return s + c.periodToDate.currentCount; }, 0) : monthReviews;
+  const periodAsOf = hasPeriodData ? centres[0].periodToDate.asOfDate : null;
+  const periodDelta = hasPeriodData
+    ? periodCurrent - centres.reduce(function (s, c) { return s + c.periodToDate.priorCount; }, 0)
+    : null;
 
   document.getElementById("statGrid").innerHTML =
     statTile({
       label: "Average rating", value: avgRating.toFixed(1),
-      icon: starIcon("#eda100"), iconBg: "#fdf3d9",
+      icon: starIcon("#eda100"), iconBg: "#fdf3d9", tint: "#fdf3d9cc",
       delta: ratingDelta === null ? null : deltaFrom(ratingDelta, Math.abs(ratingDelta).toFixed(1), monthLabel(prevKey))
     }) +
     statTile({
       label: "Total reviews", value: totalReviews.toLocaleString("en-IN"),
-      icon: reviewsIcon(), iconBg: "var(--accent-light)",
+      icon: reviewsIcon(), iconBg: "var(--accent-light)", tint: "#eaf1ffcc",
       caption: (monthReviews > 0 ? "+" + monthReviews + " this month" : "No new reviews this month") + " · Lifetime"
     }) +
     statTile({
-      label: monthLabel(state.monthKey) + " reviews", value: monthReviews,
-      icon: trendIcon(), iconBg: "#e4f7ec",
-      delta: reviewsDelta === null ? null : deltaFrom(reviewsDelta, Math.abs(reviewsDelta), monthLabel(prevKey))
+      label: "New reviews", value: periodCurrent,
+      icon: trendIcon(), iconBg: "#e4f7ec", tint: "#e4f7eccc",
+      delta: (periodDelta === null || !periodAsOf) ? null : deltaFrom(periodDelta, Math.abs(periodDelta), periodRangeLabel(periodAsOf, -1)),
+      caption: (periodDelta === null || !periodAsOf) ? monthLabel(state.monthKey) + " so far" : periodRangeLabel(periodAsOf, 0)
     }) +
     statTile({
       label: "Target completion", value: targetPct, unit: "%",
-      icon: targetChipIcon(), iconBg: "#f2e9ff",
+      icon: targetChipIcon(), iconBg: "#f2e9ff", tint: "#f2e9ffcc",
       caption: monthReviews + " of " + monthTarget + " target · " + centres.length + " centre" + (centres.length === 1 ? "" : "s"),
       progressPct: targetPct
     });
