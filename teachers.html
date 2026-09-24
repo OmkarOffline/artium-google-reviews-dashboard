@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teacher Directory — Artium Academy Reviews</title>
-  <link rel="stylesheet" href="css/styles.css?v=14" />
+  <link rel="stylesheet" href="css/styles.css?v=15" />
 </head>
 <body>
   <div class="app-shell">
@@ -48,9 +48,7 @@
               <tr>
                 <th>Teacher</th>
                 <th>Centre</th>
-                <th>Course 1</th>
-                <th>Course 2</th>
-                <th>Review mentions</th>
+                <th>Course</th>
                 <th></th>
               </tr>
             </thead>
@@ -60,6 +58,20 @@
       </section>
 
       <section id="leaderboardSection" style="display:none;">
+        <div class="filter-bar">
+          <div class="pill-group" id="lbScopePills">
+            <button type="button" class="active" data-scope="lifetime">Lifetime</button>
+            <button type="button" data-scope="month">Current Month</button>
+          </div>
+          <select class="select-control" id="lbMonthSelect" aria-label="Select month"></select>
+          <select class="select-control" id="lbCentreSelect" aria-label="Select centre">
+            <option value="all">All centres</option>
+            <option value="alwarpet">Alwarpet</option>
+            <option value="thoraipakkam">Thoraipakkam</option>
+            <option value="borewell-road">Borewell Road</option>
+          </select>
+          <div class="spacer"></div>
+        </div>
         <div class="leaderboard-grid">
           <div class="card" style="padding:20px;">
             <div class="section-heading" style="margin-bottom:12px;"><h2 style="font-size:14px;">Teacher leaderboard</h2></div>

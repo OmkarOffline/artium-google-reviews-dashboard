@@ -1773,6 +1773,8 @@ button {
 .role-badge.admin { background: #fef3e0; color: #b45900; }
 .role-badge.operations-owner { background: var(--accent-light); color: var(--accent-dark); }
 .role-badge.teacher { background: #eafaf1; color: #0f7a4d; }
+.role-badge.centre-manager { background: var(--accent-light); color: var(--accent-dark); }
+.role-badge.academic-counsellor { background: #f2e9ff; color: #6d28d9; }
 
 .target-owner-flag {
   display: inline-flex;
@@ -1972,6 +1974,12 @@ button {
 .rank-badge.gold { background: #fef3e0; color: #b45900; }
 .rank-badge.silver { background: #eef0f2; color: #52616b; }
 .rank-badge.bronze { background: #fbe9e2; color: #a54a28; }
+
+.rank-badge.medal {
+  width: 26px;
+  height: 26px;
+  background: transparent;
+}
 
 .leaderboard-row .info {
   flex: 1;

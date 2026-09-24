@@ -28,7 +28,7 @@ const SNAPSHOT = {
       location: "Alwarpet, Chennai",
       gmbUrl: "https://maps.app.goo.gl/jeTg64JXCfN9ZZ2e8",
       monthlyTarget: 20,
-      owner: { name: "Monika", email: "monika@artiumacademy.com", role: "Operations Owner", cadence: "Weekly" },
+      owner: { name: "Mahalakshmi", email: "", role: "Centre Manager", cadence: "Weekly" },
       team: { manager: "Mahalakshmi", counsellor: "Poojalakshmi" },
       // -- filled in by loadSnapshotData() --
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
@@ -41,7 +41,7 @@ const SNAPSHOT = {
       location: "Thoraipakkam, Chennai",
       gmbUrl: "https://maps.app.goo.gl/NojWW5T3S64eqqUk9",
       monthlyTarget: 15,
-      owner: { name: "Padma", email: "padma@artiumacademy.com", role: "Operations Owner", cadence: "Fortnightly" },
+      owner: { name: "Padma Priya", email: "", role: "Centre Manager", cadence: "Fortnightly" },
       team: { manager: "Padma Priya", counsellor: "Devika" },
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
       monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
@@ -53,7 +53,7 @@ const SNAPSHOT = {
       location: "Borewell Road, Bangalore",
       gmbUrl: "https://maps.app.goo.gl/RF4yssx7sJh6tUuk6",
       monthlyTarget: 18,
-      owner: { name: "Monika", email: "monika@artiumacademy.com", role: "Operations Owner", cadence: "Weekly" },
+      owner: { name: "Dipali Modhvadia", email: "", role: "Centre Manager", cadence: "Weekly" },
       team: { manager: "Dipali Modhvadia", counsellor: "Sneha KS" },
       rating: 0, totalReviews: 0, currentMonthReviews: 0,
       monthlyBreakdown: [], topThemes: [], aiSummary: "", teacherMentions: [], monthlySummaries: {}, periodToDate: null
@@ -62,14 +62,21 @@ const SNAPSHOT = {
 
   recentReviews: [],
 
-  // Operations Directory — the people responsible for review targets.
-  // PLACEHOLDER: replace with your actual team list. One row per
-  // person-per-centre assignment (a person covering 2 centres gets 2 rows).
+  // Operations Directory — the people responsible for review targets. One
+  // row per person-per-centre assignment. Centre Manager / Academic
+  // Counsellor names are the real team roster Omkar provided (Sep 2026, see
+  // each centre's `team` field above); no email addresses were given, so
+  // those are left blank rather than guessed. The Centre Manager is treated
+  // as owning the review target for their centre; the Academic Counsellor
+  // does not.
   operationsDirectory: [
     { id: 1, name: "Omkar", email: "omkar@artiumacademy.com", centreId: "all", role: "Admin", cadence: "Weekly", ownsTarget: false },
-    { id: 2, name: "Monika", email: "monika@artiumacademy.com", centreId: "alwarpet", role: "Operations Owner", cadence: "Weekly", ownsTarget: true },
-    { id: 3, name: "Monika", email: "monika@artiumacademy.com", centreId: "borewell-road", role: "Operations Owner", cadence: "Weekly", ownsTarget: true },
-    { id: 4, name: "Padma", email: "padma@artiumacademy.com", centreId: "thoraipakkam", role: "Operations Owner", cadence: "Fortnightly", ownsTarget: true }
+    { id: 2, name: "Mahalakshmi", email: "", centreId: "alwarpet", role: "Centre Manager", cadence: "Weekly", ownsTarget: true },
+    { id: 3, name: "Poojalakshmi", email: "", centreId: "alwarpet", role: "Academic Counsellor", cadence: "Weekly", ownsTarget: false },
+    { id: 4, name: "Padma Priya", email: "", centreId: "thoraipakkam", role: "Centre Manager", cadence: "Fortnightly", ownsTarget: true },
+    { id: 5, name: "Devika", email: "", centreId: "thoraipakkam", role: "Academic Counsellor", cadence: "Fortnightly", ownsTarget: false },
+    { id: 6, name: "Dipali Modhvadia", email: "", centreId: "borewell-road", role: "Centre Manager", cadence: "Weekly", ownsTarget: true },
+    { id: 7, name: "Sneha KS", email: "", centreId: "borewell-road", role: "Academic Counsellor", cadence: "Weekly", ownsTarget: false }
   ],
 
   // Course dropdown values (fixed list from the brief).

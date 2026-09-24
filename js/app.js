@@ -174,6 +174,21 @@ function targetChipIcon() {
   return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>';
 }
 
+// Medal icon for leaderboard ranks 1–3 — a filled medal disc with a hanging
+// ribbon, in the tier's colour, rather than a plain numbered circle.
+function medalIcon(tier) {
+  const fill = { gold: "#eda100", silver: "#9aa5b1", bronze: "#c2740a" }[tier] || "#9aa5b1";
+  const dark = { gold: "#b45900", silver: "#6b7684", bronze: "#8a4d1d" }[tier] || "#6b7684";
+  return (
+    '<svg width="20" height="20" viewBox="0 0 24 24">' +
+      '<path d="M9 11l-3 9 6-3 6 3-3-9" fill="' + dark + '" opacity="0.5"/>' +
+      '<circle cx="12" cy="9.5" r="7.5" fill="' + fill + '"/>' +
+      '<circle cx="12" cy="9.5" r="7.5" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>' +
+      '<path d="M12 5.8l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.2 1.2.4-2.5-1.8-1.8 2.5-.4L12 5.8z" fill="#fff" opacity="0.95"/>' +
+    '</svg>'
+  );
+}
+
 function aiSparkleIcon() {
   return '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.6L19.4 9.4 13.8 11.2 12 17l-1.8-5.8L4.6 9.4l5.6-1.8L12 2zM19 14l.9 2.7L22.6 17.6l-2.7.9L19 21.2l-.9-2.7-2.7-.9 2.7-.9L19 14zM5 15l.7 2 2 .7-2 .7L5 20.4l-.7-2-2-.7 2-.7L5 15z"/></svg>';
 }
