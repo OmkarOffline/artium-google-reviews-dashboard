@@ -66,8 +66,21 @@ function renderCentre(centre) {
     });
 
   document.getElementById("aiSummaryText").textContent = centre.aiSummary;
-  document.getElementById("themeTags").innerHTML = centre.topThemes.map(function (t) {
-    return '<span class="theme-tag">' + t + '</span>';
+
+  // "Trending topics" — this month's topic mentions (already counted, so
+  // "trending" means most-discussed right now, not a fabricated up/down
+  // trend we don't have data for). Falls back to the plain theme list for
+  // a month with no structured breakdown yet.
+  const monthSummary = centre.monthlySummaries && centre.monthlySummaries[monthKey];
+  const topics = monthSummary && monthSummary.topicMentions
+    ? monthSummary.topicMentions.slice().sort(function (a, b) { return b.count - a.count; }).slice(0, 5)
+    : centre.topThemes.map(function (t) { return { topic: t, count: null }; });
+
+  const trendingLabel = document.getElementById("trendingTopicsLabel");
+  trendingLabel.style.display = "flex";
+  trendingLabel.innerHTML = trendUpIcon() + '<span>Trending topics this month</span>';
+  document.getElementById("themeTags").innerHTML = topics.map(function (t) {
+    return '<span class="theme-tag">' + t.topic + (t.count !== null ? ' <span class="n">' + t.count + '</span>' : '') + '</span>';
   }).join("");
 
   // Review trend chart (single series)

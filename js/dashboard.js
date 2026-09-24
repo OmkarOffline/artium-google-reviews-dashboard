@@ -143,27 +143,41 @@ function renderCentreCards() {
     const monthCount = monthCountFor(c, state.monthKey);
     const pct = Math.min(100, Math.round((monthCount / c.monthlyTarget) * 100));
     const over = monthCount >= c.monthlyTarget;
+    const barColor = targetBandColor(pct);
+
+    const monthSummary = c.monthlySummaries && c.monthlySummaries[state.monthKey];
+    const topics = monthSummary && monthSummary.topicMentions
+      ? monthSummary.topicMentions.slice().sort(function (a, b) { return b.count - a.count; }).slice(0, 5)
+      : c.topThemes.map(function (t) { return { topic: t, count: null }; });
+
     return (
       '<div class="card centre-card">' +
         '<div class="centre-card-head">' +
-          '<div>' +
-            '<div class="name">' + c.name + '</div>' +
-            '<div class="city">' + c.city + '</div>' +
+          '<div class="name">' + c.name + '</div>' +
+          '<div class="city">' + c.city + '</div>' +
+        '</div>' +
+        '<div class="centre-card-hero-stats">' +
+          '<div class="hero-stat">' +
+            '<div class="hv rating">' + c.rating.toFixed(1) + ' ' + starIcon("#eda100") + '</div>' +
+            '<div class="hl">Google rating</div>' +
           '</div>' +
-          '<span class="rating-chip">' + starIcon("#b45900") + ' ' + c.rating.toFixed(1) + '</span>' +
+          '<div class="hero-stat">' +
+            '<div class="hv reviews">' + c.totalReviews.toLocaleString("en-IN") + '</div>' +
+            '<div class="hl">Total reviews</div>' +
+          '</div>' +
         '</div>' +
-        '<div class="centre-card-stats">' +
-          '<div class="item"><div class="value">' + c.totalReviews + '</div><div class="label">Total reviews</div></div>' +
-          '<div class="item"><div class="value">' + monthCount + ' / ' + c.monthlyTarget + '</div><div class="label">' + monthLabel(state.monthKey) + ' target</div></div>' +
+        '<div class="centre-card-target-row">' +
+          '<span class="target-count">' + monthCount + '<span class="muted">/' + c.monthlyTarget + '</span></span>' +
+          '<span class="target-sub">' + monthLabel(state.monthKey) + ' target</span>' +
+          '<div class="meter"><div class="meter-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>' +
+          '<span class="target-pct" style="color:' + barColor + '">' + pct + '%</span>' +
         '</div>' +
-        '<div>' +
-          '<div class="meter"><div class="meter-fill' + (over ? " over" : "") + '" style="width:' + pct + '%"></div></div>' +
-          '<div class="meter-caption"><span>' + pct + '% of target</span>' + (over ? '<span style="color:#006300">Target met</span>' : '') + '</div>' +
-        '</div>' +
+        (over ? '<div class="target-met-note">Target met</div>' : "") +
         '<div class="centre-card-summary">' +
           '<div class="ai-label">✦ AI summary</div>' +
           c.aiSummary +
-          '<div class="theme-tags">' + c.topThemes.map(function (t) { return '<span class="theme-tag">' + t + '</span>'; }).join("") + '</div>' +
+          '<div class="trending-topics-label">' + trendUpIcon() + '<span>Trending topics</span></div>' +
+          '<div class="theme-tags">' + topics.map(function (t) { return '<span class="theme-tag">' + t.topic + (t.count !== null ? ' <span class="n">' + t.count + '</span>' : '') + '</span>'; }).join("") + '</div>' +
         '</div>' +
         '<div class="centre-card-footer">' +
           '<a class="link-arrow" href="centre.html?id=' + c.id + '">View centre details →</a>' +

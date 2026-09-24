@@ -73,7 +73,7 @@ function statTile(opts) {
     : "";
   const caption = opts.caption ? '<div class="stat-tile-caption">' + opts.caption + '</div>' : "";
   const progress = (opts.progressPct !== undefined && opts.progressPct !== null)
-    ? '<div class="stat-tile-progress"><div class="fill" style="width:' + Math.min(100, Math.max(0, opts.progressPct)) + '%"></div></div>'
+    ? '<div class="stat-tile-progress"><div class="fill" style="width:' + Math.min(100, Math.max(0, opts.progressPct)) + '%;background:' + targetBandColor(opts.progressPct) + '"></div></div>'
     : "";
   return (
     '<div class="card stat-tile">' +
@@ -88,6 +88,32 @@ function statTile(opts) {
 
 function reviewsIcon() {
   return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"/></svg>';
+}
+
+// Target-completion progress bars share this 3-band colour scale everywhere
+// they appear (Dashboard centre cards, both "Monthly target" stat tiles):
+// 0–40% red, 41–70% yellow, 71–100% green — each band going from a punchy/
+// dark shade at its low end to a lighter shade at its high end, except the
+// green band which intensifies as it climbs (so 100% reads as the most
+// "done" colour, not the palest).
+function lerp(a, b, t) { return Math.round(a + (b - a) * t); }
+function hexToRgb(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+function mixHex(hex1, hex2, t) {
+  const a = hexToRgb(hex1), b = hexToRgb(hex2);
+  return "rgb(" + lerp(a[0], b[0], t) + "," + lerp(a[1], b[1], t) + "," + lerp(a[2], b[2], t) + ")";
+}
+function targetBandColor(pct) {
+  pct = Math.max(0, Math.min(100, pct));
+  if (pct <= 40) return mixHex("#b91c1c", "#fca5a5", pct / 40);
+  if (pct <= 70) return mixHex("#92400e", "#fde68a", (pct - 40) / 30);
+  return mixHex("#86efac", "#15803d", (pct - 70) / 30);
+}
+
+function trendUpIcon() {
+  return '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>';
 }
 
 function trendIcon() {

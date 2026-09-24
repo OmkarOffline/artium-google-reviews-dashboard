@@ -189,6 +189,10 @@
             {
               "topic": "tech-enabled experience",
               "count": 2
+            },
+            {
+              "topic": "front desk",
+              "count": 1
             }
           ],
           "sentiment": {
@@ -285,6 +289,10 @@
             {
               "topic": "overall sentiment",
               "count": 3
+            },
+            {
+              "topic": "scheduling",
+              "count": 2
             }
           ],
           "sentiment": {

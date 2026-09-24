@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Centre Detail — Artium Academy Reviews</title>
-  <link rel="stylesheet" href="css/styles.css?v=5" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
 </head>
 <body>
   <div class="app-shell">
@@ -32,9 +32,10 @@
       </section>
 
       <section class="page-section two-col">
-        <div class="card" style="padding:20px;">
-          <div class="ai-label" style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">✦ AI summary</div>
-          <p id="aiSummaryText" style="font-size:13.5px;line-height:1.6;color:var(--text-secondary);margin:0;"></p>
+        <div class="card ai-summary-card">
+          <div class="ai-summary-label">✦ AI summary</div>
+          <p id="aiSummaryText" class="ai-summary-text"></p>
+          <div class="trending-topics-label" id="trendingTopicsLabel" style="display:none;"></div>
           <div class="theme-tags" id="themeTags"></div>
         </div>
 
