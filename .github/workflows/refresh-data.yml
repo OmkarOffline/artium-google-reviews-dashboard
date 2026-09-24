@@ -1,0 +1,36 @@
+name: Refresh review data
+
+on:
+  schedule:
+    # 03:30 UTC = 09:00 IST, every day
+    - cron: "30 3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run data refresh
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/refresh-data.js
+
+      - name: Commit updated snapshot
+        run: |
+          git config user.name "artium-data-bot"
+          git config user.email "actions@github.com"
+          git add data/snapshot.json
+          git diff --staged --quiet || git commit -m "Automated review data refresh"
+          git push
