@@ -11,17 +11,27 @@
 let editingId = null;
 let nextId = Math.max.apply(null, SNAPSHOT.teacherDirectory.map(function (t) { return t.id; })) + 1;
 
-const state = { role: "Admin", view: "directory" };
+const requestedView = new URLSearchParams(window.location.search).get("view") === "leaderboards" ? "leaderboards" : "directory";
+const state = { role: "Admin", view: requestedView };
 
 document.addEventListener("DOMContentLoaded", async function () {
   if (!requireAuth()) return;
   await loadSnapshotData();
-  document.getElementById("topbarSlot").innerHTML = renderTopbar("teachers", SNAPSHOT);
+  const activePage = state.view === "leaderboards" ? "leaderboards" : "teachers";
+  document.getElementById("sidebarSlot").innerHTML = renderSidebar(activePage, SNAPSHOT);
+  document.getElementById("topbarSlot").innerHTML = renderTopbar('<h1 class="topbar-title">' + (state.view === "leaderboards" ? "Leaderboards" : "Teacher Directory") + '</h1>', SNAPSHOT);
   wireRefreshButton();
   populateSelects();
   wireTabs();
   wireRoleSwitcher();
   wireModal();
+  if (state.view === "leaderboards") {
+    document.querySelectorAll("#viewTabs button").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.view === "leaderboards");
+    });
+    document.getElementById("directorySection").style.display = "none";
+    document.getElementById("leaderboardSection").style.display = "block";
+  }
   render();
 });
 

@@ -67,15 +67,27 @@ function lastNMonthKeys(n, fromDate) {
   return keys;
 }
 
-function computeMonthlyBreakdown(reviews, now) {
+function computeMonthlyBreakdown(reviews, now, fallbackRating) {
   const months = lastNMonthKeys(MONTHS_TO_KEEP, now);
   const counts = {};
-  months.forEach(function (m) { counts[m] = 0; });
+  const ratingSums = {};
+  months.forEach(function (m) { counts[m] = 0; ratingSums[m] = 0; });
   reviews.forEach(function (r) {
     const mk = monthKeyOf(r.createTime);
-    if (counts[mk] !== undefined) counts[mk]++;
+    if (counts[mk] === undefined) return;
+    counts[mk]++;
+    ratingSums[mk] += STAR_RATING_MAP[r.starRating] || 0;
   });
-  return months.map(function (m) { return { month: m, count: counts[m] }; });
+  // Average rating per month, computed only from that month's own reviews.
+  // A month with zero reviews carries forward the previous month's average
+  // (or the centre's current lifetime rating for the very first month) so
+  // the trend line never misleadingly drops to zero for a quiet month.
+  let carry = fallbackRating || 0;
+  return months.map(function (m) {
+    const rating = counts[m] > 0 ? Math.round((ratingSums[m] / counts[m]) * 10) / 10 : carry;
+    carry = rating;
+    return { month: m, count: counts[m], rating: rating };
+  });
 }
 
 // Centre-specific fuzzy-ish matching: a teacher is only ever matched
@@ -226,14 +238,13 @@ async function main() {
     const locationName = centresConfig[centre.id].name;
     const { reviews, averageRating, totalReviewCount } = await fetchAllReviews(locationName, accessToken);
 
-    const monthlyBreakdown = computeMonthlyBreakdown(reviews, now);
+    const previous = previousSnapshot.centres[centre.id] || {};
+    const monthlyBreakdown = computeMonthlyBreakdown(reviews, now, previous.rating);
     const currentMonthReviews = (monthlyBreakdown.find(function (m) { return m.month === currentMonthKey; }) || {}).count || 0;
     const thisMonthReviews = reviews.filter(function (r) { return monthKeyOf(r.createTime) === currentMonthKey; });
 
     const teachers = SNAPSHOT.teacherDirectory.filter(function (t) { return t.centreId === centre.id; });
     const teacherMentions = computeTeacherMentions(teachers, reviews);
-
-    const previous = previousSnapshot.centres[centre.id] || {};
 
     const lifetimeAi = await generateAiSummary(centre.name, reviews, false);
     const monthlyAi = await generateAiSummary(centre.name, thisMonthReviews, true);

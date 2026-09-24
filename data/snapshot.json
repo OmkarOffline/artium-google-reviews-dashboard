@@ -1,5 +1,5 @@
 {
-  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today — only where the numbers come from changes.",
+  "_comment": "This file is the 'saved snapshot' the whole dashboard reads from. It is overwritten automatically by the scheduled GitHub Action (see .github/workflows/refresh-data.yml and scripts/refresh-data.js) once Google Business Profile API access is approved. Until then it holds the same sample numbers the dashboard was built and reviewed against, so nothing changes visually today \u2014 only where the numbers come from changes.",
   "lastRefreshed": "2026-09-22T09:00:00+05:30",
   "centres": {
     "alwarpet": {
@@ -7,19 +7,59 @@
       "totalReviews": 312,
       "currentMonthReviews": 14,
       "monthlyBreakdown": [
-        { "month": "2026-04", "count": 11 },
-        { "month": "2026-05", "count": 15 },
-        { "month": "2026-06", "count": 9 },
-        { "month": "2026-07", "count": 18 },
-        { "month": "2026-08", "count": 16 },
-        { "month": "2026-09", "count": 14 }
+        {
+          "month": "2026-04",
+          "count": 11,
+          "rating": 4.5
+        },
+        {
+          "month": "2026-05",
+          "count": 15,
+          "rating": 4.6
+        },
+        {
+          "month": "2026-06",
+          "count": 9,
+          "rating": 4.6
+        },
+        {
+          "month": "2026-07",
+          "count": 18,
+          "rating": 4.7
+        },
+        {
+          "month": "2026-08",
+          "count": 16,
+          "rating": 4.7
+        },
+        {
+          "month": "2026-09",
+          "count": 14,
+          "rating": 4.8
+        }
       ],
-      "topThemes": ["teacher quality", "ambience", "scheduling"],
+      "topThemes": [
+        "teacher quality",
+        "ambience",
+        "scheduling"
+      ],
       "aiSummary": "Reviewers consistently praise teacher expertise and the calm, well-maintained ambience at Alwarpet. A recurring minor complaint is scheduling flexibility for working parents.",
       "teacherMentions": [
-        { "name": "Priya Ramanathan", "course": "Carnatic Classical", "mentions": 9 },
-        { "name": "Arjun Nair", "course": "Guitar", "mentions": 5 },
-        { "name": "Divya Krishnan", "course": "PFM - Tamil", "mentions": 3 }
+        {
+          "name": "Priya Ramanathan",
+          "course": "Carnatic Classical",
+          "mentions": 9
+        },
+        {
+          "name": "Arjun Nair",
+          "course": "Guitar",
+          "mentions": 5
+        },
+        {
+          "name": "Divya Krishnan",
+          "course": "PFM - Tamil",
+          "mentions": 3
+        }
       ],
       "monthlySummaries": {
         "2026-09": {
@@ -34,13 +74,32 @@
             "One review flagged a delayed fee-receipt follow-up"
           ],
           "topicMentions": [
-            { "topic": "teacher quality", "count": 8 },
-            { "topic": "ambience", "count": 6 },
-            { "topic": "scheduling", "count": 4 },
-            { "topic": "staff behavior", "count": 3 },
-            { "topic": "pricing", "count": 1 }
+            {
+              "topic": "teacher quality",
+              "count": 8
+            },
+            {
+              "topic": "ambience",
+              "count": 6
+            },
+            {
+              "topic": "scheduling",
+              "count": 4
+            },
+            {
+              "topic": "staff behavior",
+              "count": 3
+            },
+            {
+              "topic": "pricing",
+              "count": 1
+            }
           ],
-          "sentiment": { "positive": 79, "neutral": 14, "negative": 7 }
+          "sentiment": {
+            "positive": 79,
+            "neutral": 14,
+            "negative": 7
+          }
         }
       }
     },
@@ -49,19 +108,59 @@
       "totalReviews": 187,
       "currentMonthReviews": 9,
       "monthlyBreakdown": [
-        { "month": "2026-04", "count": 8 },
-        { "month": "2026-05", "count": 10 },
-        { "month": "2026-06", "count": 7 },
-        { "month": "2026-07", "count": 12 },
-        { "month": "2026-08", "count": 11 },
-        { "month": "2026-09", "count": 9 }
+        {
+          "month": "2026-04",
+          "count": 8,
+          "rating": 4.3
+        },
+        {
+          "month": "2026-05",
+          "count": 10,
+          "rating": 4.4
+        },
+        {
+          "month": "2026-06",
+          "count": 7,
+          "rating": 4.4
+        },
+        {
+          "month": "2026-07",
+          "count": 12,
+          "rating": 4.5
+        },
+        {
+          "month": "2026-08",
+          "count": 11,
+          "rating": 4.5
+        },
+        {
+          "month": "2026-09",
+          "count": 9,
+          "rating": 4.6
+        }
       ],
-      "topThemes": ["class quality", "app experience", "pricing"],
+      "topThemes": [
+        "class quality",
+        "app experience",
+        "pricing"
+      ],
       "aiSummary": "Strong sentiment around class quality and the tech-enabled learning experience. A few reviews mention pricing as a consideration relative to nearby alternatives.",
       "teacherMentions": [
-        { "name": "Karthik Subramaniam", "course": "Keyboard", "mentions": 6 },
-        { "name": "Sneha Iyer", "course": "Western Vocals", "mentions": 4 },
-        { "name": "Not Applicable", "course": "—", "mentions": 2 }
+        {
+          "name": "Karthik Subramaniam",
+          "course": "Keyboard",
+          "mentions": 6
+        },
+        {
+          "name": "Sneha Iyer",
+          "course": "Western Vocals",
+          "mentions": 4
+        },
+        {
+          "name": "Not Applicable",
+          "course": "\u2014",
+          "mentions": 2
+        }
       ],
       "monthlySummaries": {
         "2026-09": {
@@ -75,12 +174,28 @@
             "Pricing questioned relative to nearby centres in 3 reviews"
           ],
           "topicMentions": [
-            { "topic": "class quality", "count": 5 },
-            { "topic": "app experience", "count": 4 },
-            { "topic": "pricing", "count": 3 },
-            { "topic": "tech-enabled experience", "count": 2 }
+            {
+              "topic": "class quality",
+              "count": 5
+            },
+            {
+              "topic": "app experience",
+              "count": 4
+            },
+            {
+              "topic": "pricing",
+              "count": 3
+            },
+            {
+              "topic": "tech-enabled experience",
+              "count": 2
+            }
           ],
-          "sentiment": { "positive": 68, "neutral": 21, "negative": 11 }
+          "sentiment": {
+            "positive": 68,
+            "neutral": 21,
+            "negative": 11
+          }
         }
       }
     },
@@ -89,19 +204,59 @@
       "totalReviews": 245,
       "currentMonthReviews": 19,
       "monthlyBreakdown": [
-        { "month": "2026-04", "count": 13 },
-        { "month": "2026-05", "count": 16 },
-        { "month": "2026-06", "count": 14 },
-        { "month": "2026-07", "count": 17 },
-        { "month": "2026-08", "count": 15 },
-        { "month": "2026-09", "count": 19 }
+        {
+          "month": "2026-04",
+          "count": 13,
+          "rating": 4.6
+        },
+        {
+          "month": "2026-05",
+          "count": 16,
+          "rating": 4.7
+        },
+        {
+          "month": "2026-06",
+          "count": 14,
+          "rating": 4.7
+        },
+        {
+          "month": "2026-07",
+          "count": 17,
+          "rating": 4.8
+        },
+        {
+          "month": "2026-08",
+          "count": 15,
+          "rating": 4.8
+        },
+        {
+          "month": "2026-09",
+          "count": 19,
+          "rating": 4.9
+        }
       ],
-      "topThemes": ["teacher quality", "learning environment", "staff behavior"],
+      "topThemes": [
+        "teacher quality",
+        "learning environment",
+        "staff behavior"
+      ],
       "aiSummary": "Consistently the highest-rated centre. Reviewers highlight individual teacher mentions frequently and describe the learning environment as premium and welcoming.",
       "teacherMentions": [
-        { "name": "Ananya Rao", "course": "Hindustani Classical", "mentions": 11 },
-        { "name": "Vikram Shetty", "course": "Guitar", "mentions": 6 },
-        { "name": "Meera Pillai", "course": "Carnatic Classical", "mentions": 4 }
+        {
+          "name": "Ananya Rao",
+          "course": "Hindustani Classical",
+          "mentions": 11
+        },
+        {
+          "name": "Vikram Shetty",
+          "course": "Guitar",
+          "mentions": 6
+        },
+        {
+          "name": "Meera Pillai",
+          "course": "Carnatic Classical",
+          "mentions": 4
+        }
       ],
       "monthlySummaries": {
         "2026-09": {
@@ -115,21 +270,80 @@
             "A single review mentioned parking availability near the centre"
           ],
           "topicMentions": [
-            { "topic": "teacher quality", "count": 10 },
-            { "topic": "learning environment", "count": 7 },
-            { "topic": "staff behavior", "count": 4 },
-            { "topic": "overall sentiment", "count": 3 }
+            {
+              "topic": "teacher quality",
+              "count": 10
+            },
+            {
+              "topic": "learning environment",
+              "count": 7
+            },
+            {
+              "topic": "staff behavior",
+              "count": 4
+            },
+            {
+              "topic": "overall sentiment",
+              "count": 3
+            }
           ],
-          "sentiment": { "positive": 88, "neutral": 9, "negative": 3 }
+          "sentiment": {
+            "positive": 88,
+            "neutral": 9,
+            "negative": 3
+          }
         }
       }
     }
   },
   "recentReviews": [
-    { "centreId": "borewell-road", "rating": 5, "date": "2026-09-20", "text": "Amazing experience for my daughter's Carnatic classes. The teacher is patient and skilled.", "tags": ["teacher mentioned", "class quality"] },
-    { "centreId": "alwarpet", "rating": 5, "date": "2026-09-19", "text": "Lovely ambience and well-organized front desk. Scheduling a trial class was smooth.", "tags": ["ambience", "staff behavior"] },
-    { "centreId": "thoraipakkam", "rating": 4, "date": "2026-09-18", "text": "Good classes, app could be more intuitive for tracking attendance.", "tags": ["app experience"] },
-    { "centreId": "borewell-road", "rating": 5, "date": "2026-09-17", "text": "Best decision to enroll here. Highly recommend the guitar program.", "tags": ["general"] },
-    { "centreId": "alwarpet", "rating": 4, "date": "2026-09-15", "text": "Great teachers, though weekend slots fill up fast.", "tags": ["scheduling", "teacher mentioned"] }
+    {
+      "centreId": "borewell-road",
+      "rating": 5,
+      "date": "2026-09-20",
+      "text": "Amazing experience for my daughter's Carnatic classes. The teacher is patient and skilled.",
+      "tags": [
+        "teacher mentioned",
+        "class quality"
+      ]
+    },
+    {
+      "centreId": "alwarpet",
+      "rating": 5,
+      "date": "2026-09-19",
+      "text": "Lovely ambience and well-organized front desk. Scheduling a trial class was smooth.",
+      "tags": [
+        "ambience",
+        "staff behavior"
+      ]
+    },
+    {
+      "centreId": "thoraipakkam",
+      "rating": 4,
+      "date": "2026-09-18",
+      "text": "Good classes, app could be more intuitive for tracking attendance.",
+      "tags": [
+        "app experience"
+      ]
+    },
+    {
+      "centreId": "borewell-road",
+      "rating": 5,
+      "date": "2026-09-17",
+      "text": "Best decision to enroll here. Highly recommend the guitar program.",
+      "tags": [
+        "general"
+      ]
+    },
+    {
+      "centreId": "alwarpet",
+      "rating": 4,
+      "date": "2026-09-15",
+      "text": "Great teachers, though weekend slots fill up fast.",
+      "tags": [
+        "scheduling",
+        "teacher mentioned"
+      ]
+    }
   ]
 }

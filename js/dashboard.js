@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (!requireAuth()) return;
   await loadSnapshotData();
   state.monthKey = currentMonthKey(SNAPSHOT);
-  document.getElementById("topbarSlot").innerHTML = renderTopbar("dashboard", SNAPSHOT);
+  document.getElementById("sidebarSlot").innerHTML = renderSidebar("dashboard", SNAPSHOT);
+  document.getElementById("topbarSlot").innerHTML = renderTopbar('<h1 class="topbar-title">Dashboard</h1>', SNAPSHOT);
   wireRefreshButton();
   populateMonthSelect();
   wireFilters();
@@ -67,6 +68,16 @@ function monthCountFor(centre, monthKey) {
   return entry ? entry.count : 0;
 }
 
+function monthEntryFor(centre, monthKey) {
+  return centre.monthlyBreakdown.find(function (m) { return m.month === monthKey; });
+}
+
+function prevMonthKey(monthKey) {
+  const [y, m] = monthKey.split("-").map(Number);
+  const d = new Date(y, m - 2, 1); // m is 1-based; -2 lands one month back
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+}
+
 function renderAll() {
   renderStatTiles();
   renderCentreCards();
@@ -85,13 +96,44 @@ function renderStatTiles() {
   const monthTarget = centres.reduce(function (s, c) { return s + c.monthlyTarget; }, 0);
   const targetPct = monthTarget ? Math.round((monthReviews / monthTarget) * 100) : 0;
 
+  // Deltas, computed from the same monthly-breakdown data already on the
+  // snapshot (not invented) — the month immediately before the one shown.
+  const prevKey = prevMonthKey(state.monthKey);
+  const prevReviews = centres.reduce(function (s, c) { const e = monthEntryFor(c, prevKey); return s + (e ? e.count : 0); }, 0);
+  const prevRatingWeighted = centres.reduce(function (s, c) { const e = monthEntryFor(c, prevKey); return s + (e ? e.rating * e.count : 0); }, 0);
+  const prevRatingCount = centres.reduce(function (s, c) { const e = monthEntryFor(c, prevKey); return s + (e ? e.count : 0); }, 0);
+  const prevAvgRating = prevRatingCount ? (prevRatingWeighted / prevRatingCount) : null;
+  const hasPrevMonth = centres.length > 0 && centres.every(function (c) { return !!monthEntryFor(c, prevKey); });
+
+  const ratingDelta = (hasPrevMonth && prevAvgRating !== null)
+    ? (Math.round((avgRating - prevAvgRating) * 10) / 10)
+    : null;
+  const reviewsDelta = hasPrevMonth ? (monthReviews - prevReviews) : null;
+
   document.getElementById("statGrid").innerHTML =
-    statTile("Average rating", avgRating.toFixed(1), starIcon("#eda100"), null) +
-    statTile("Total reviews", totalReviews.toLocaleString("en-IN"), null, null) +
-    statTile(monthLabel(state.monthKey) + " reviews", monthReviews, null, null) +
-    statTile("Target completion", targetPct + "<span class=\"unit\">%</span>", null,
-      targetPct >= 100 ? { text: "On target", up: true } : { text: (monthTarget - monthReviews) + " to go", up: false });
+    statTile({
+      label: "Average rating", value: avgRating.toFixed(1),
+      icon: starIcon("#eda100"), iconBg: "#fdf3d9",
+      delta: ratingDelta === null ? null : deltaFrom(ratingDelta, Math.abs(ratingDelta).toFixed(1), monthLabel(prevKey))
+    }) +
+    statTile({
+      label: "Total reviews", value: totalReviews.toLocaleString("en-IN"),
+      icon: reviewsIcon(), iconBg: "var(--accent-light)",
+      caption: (monthReviews > 0 ? "+" + monthReviews + " this month" : "No new reviews this month") + " · Lifetime"
+    }) +
+    statTile({
+      label: monthLabel(state.monthKey) + " reviews", value: monthReviews,
+      icon: trendIcon(), iconBg: "#e4f7ec",
+      delta: reviewsDelta === null ? null : deltaFrom(reviewsDelta, Math.abs(reviewsDelta), monthLabel(prevKey))
+    }) +
+    statTile({
+      label: "Target completion", value: targetPct, unit: "%",
+      icon: targetChipIcon(), iconBg: "#f2e9ff",
+      caption: monthReviews + " of " + monthTarget + " target · " + centres.length + " centre" + (centres.length === 1 ? "" : "s"),
+      progressPct: targetPct
+    });
 }
+
 
 /* ---- Centre cards ---- */
 

@@ -9,12 +9,13 @@ let currentMonth = null;
 document.addEventListener("DOMContentLoaded", async function () {
   if (!requireAuth()) return;
   await loadSnapshotData();
-  document.getElementById("topbarSlot").innerHTML = renderTopbar("dashboard", SNAPSHOT);
-  wireRefreshButton();
-
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id") || SNAPSHOT.centres[0].id;
   currentCentre = centreById(SNAPSHOT, id);
+
+  document.getElementById("sidebarSlot").innerHTML = renderSidebar("centre", SNAPSHOT, id);
+  document.getElementById("topbarSlot").innerHTML = renderTopbar('<h1 class="topbar-title">' + (currentCentre ? currentCentre.name + " — Monthly" : "Monthly Summary") + '</h1>', SNAPSHOT);
+  wireRefreshButton();
 
   if (!currentCentre) {
     document.querySelector(".page").innerHTML =

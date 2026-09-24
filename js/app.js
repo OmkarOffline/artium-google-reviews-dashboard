@@ -50,14 +50,52 @@ function starIcon(colorVar) {
   return '<svg width="12" height="12" viewBox="0 0 20 20" fill="' + (colorVar || 'currentColor') + '"><path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/></svg>';
 }
 
-function statTile(label, value, icon, delta) {
+// statTile now takes a single options object so callers can attach an
+// icon chip, a caption line, and/or a progress bar without every call
+// site having to pass a long list of positional nulls.
+//   { label, value, unit, icon, iconBg, delta, caption, progressPct }
+// Builds the { text, up } object statTile's delta option expects, from a
+// raw numeric difference (already computed by the caller from real data).
+// diff === 0 reads as "No change" rather than a slightly odd "↓ 0".
+function deltaFrom(diff, formattedAbs, prevLabel) {
+  if (diff === 0) return { text: "No change vs " + prevLabel, up: null };
+  const arrow = diff > 0 ? "↑" : "↓";
+  return { text: arrow + " " + formattedAbs + " vs " + prevLabel, up: diff > 0 };
+}
+
+function statTile(opts) {
+  const iconChip = opts.icon
+    ? '<div class="stat-tile-icon" style="background:' + (opts.iconBg || "var(--accent-light)") + '">' + opts.icon + '</div>'
+    : "";
+  const unit = opts.unit ? '<span class="unit">' + opts.unit + '</span>' : "";
+  const delta = opts.delta
+    ? '<div class="delta ' + (opts.delta.up ? "up" : (opts.delta.up === false ? "down" : "flat")) + '">' + opts.delta.text + '</div>'
+    : "";
+  const caption = opts.caption ? '<div class="stat-tile-caption">' + opts.caption + '</div>' : "";
+  const progress = (opts.progressPct !== undefined && opts.progressPct !== null)
+    ? '<div class="stat-tile-progress"><div class="fill" style="width:' + Math.min(100, Math.max(0, opts.progressPct)) + '%"></div></div>'
+    : "";
   return (
     '<div class="card stat-tile">' +
-      '<div class="label">' + label + '</div>' +
-      '<div class="value">' + value + (icon ? ' ' + icon : '') + '</div>' +
-      (delta ? '<div class="delta ' + (delta.up ? "up" : "down") + '">' + delta.text + '</div>' : '') +
+      iconChip +
+      '<div class="label">' + opts.label + '</div>' +
+      '<div class="value">' + opts.value + unit + '</div>' +
+      (delta || caption) +
+      progress +
     '</div>'
   );
+}
+
+function reviewsIcon() {
+  return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"/></svg>';
+}
+
+function trendIcon() {
+  return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>';
+}
+
+function targetChipIcon() {
+  return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>';
 }
 
 function refreshIcon() {
@@ -65,21 +103,90 @@ function refreshIcon() {
 }
 
 /* ==========================================================================
-   Shared topbar — injected into every logged-in page
+   Shared sidebar + slim utility topbar — injected into every logged-in page
    ========================================================================== */
 
-function renderTopbar(activePage, snapshot) {
-  const nav = [
-    { href: "dashboard.html", label: "Dashboard", key: "dashboard" },
-    { href: "operations.html", label: "Operations Directory", key: "operations" },
-    { href: "teachers.html", label: "Teachers", key: "teachers" }
-  ];
+function navIcon(name) {
+  const icons = {
+    dashboard: '<path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>',
+    centres: '<path d="M3 21V8l9-5 9 5v13h-6v-7H9v7H3z"/>',
+    reviews: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"/>',
+    insights: '<path d="M12 2a1 1 0 0 1 1 1v1.06a8 8 0 0 1 6.94 6.94H21a1 1 0 1 1 0 2h-1.06A8 8 0 0 1 13 19.94V21a1 1 0 1 1-2 0v-1.06A8 8 0 0 1 4.06 13H3a1 1 0 1 1 0-2h1.06A8 8 0 0 1 11 4.06V3a1 1 0 0 1 1-1zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/>',
+    targets: '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm0 3.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/>',
+    people: '<path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm-8 0a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zm0 2c-2.7 0-8 1.35-8 4.05V19h9.5v-1.95c0-1.14.5-2.06 1.29-2.79C9.86 13.45 8.87 13 8 13zm8 0c-.29 0-.62.02-.96.06 1.24.96 2.06 2.2 2.06 3.94V19h7v-1.95C24 14.35 18.7 13 16 13z"/>',
+    teachers: '<path d="M12 2 1 7l11 5 9-4.09V17h2V7L12 2zM5 13.18v3.64L12 20l7-3.18v-3.64L12 16l-7-2.82z"/>',
+    leaderboards: '<path d="M8 21h8v-2H8v2zM6 3v6a6 6 0 0 0 5 5.92V17H9v2h6v-2h-2v-2.08A6 6 0 0 0 18 9V3H6zM4 5h2v3a3 3 0 0 1-2-2.82V5zm16 .18V8a3 3 0 0 1-2 2.82V5h2z"/>',
+    reports: '<path d="M6 2h9l5 5v15H6V2zm8 1.5V8h4.5L14 3.5zM8 13h8v2H8v-2zm0 4h8v2H8v-2zm0-8h4v2H8V9z"/>',
+    settings: '<path d="M19.4 13a7.97 7.97 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .12-.65l-2-3.4a.5.5 0 0 0-.6-.22l-2.5 1a8 8 0 0 0-1.73-1L14.4.5a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.63a8 8 0 0 0-1.73 1l-2.5-1a.5.5 0 0 0-.6.22l-2 3.4a.5.5 0 0 0 .12.65L4.6 11a7.97 7.97 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.12.65l2 3.4c.14.24.42.32.6.22l2.5-1c.53.44 1.11.78 1.73 1l.4 2.63c.05.24.26.4.5.4h4c.24 0 .45-.16.5-.4l.4-2.63a8 8 0 0 0 1.73-1l2.5 1c.24.1.46 0 .6-.22l2-3.4a.5.5 0 0 0-.12-.65L19.4 13zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>'
+  };
+  return '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">' + (icons[name] || "") + '</svg>';
+}
 
-  const navHtml = nav.map(function (item) {
-    const activeClass = item.key === activePage ? " active" : "";
-    return '<a class="' + activeClass.trim() + '" href="' + item.href + '">' + item.label + '</a>';
+function sidebarLink(href, iconName, label, active, extraRight) {
+  return (
+    '<a class="sidebar-link' + (active ? " active" : "") + '" href="' + href + '">' +
+      navIcon(iconName) + '<span>' + label + '</span>' + (extraRight || "") +
+    '</a>'
+  );
+}
+
+// activePage: "dashboard" | "centre" | "operations" | "teachers" | "leaderboards"
+//             | "ai-insights" | "targets" | "reports" | "settings"
+// activeCentreId: set only when activePage === "centre", to highlight the
+// right sub-link.
+function renderSidebar(activePage, snapshot, activeCentreId) {
+  const centreLinks = snapshot.centres.map(function (c) {
+    const active = activePage === "centre" && c.id === activeCentreId;
+    return '<a class="' + (active ? "active" : "") + '" href="centre.html?id=' + c.id + '">' + c.name + '</a>';
   }).join("");
 
+  const soonBadge = '<span class="badge-soon">Soon</span>';
+
+  return (
+    '<aside class="sidebar">' +
+      '<div class="sidebar-brand">' +
+        '<img src="assets/logo-mark.jpg" alt="" />' +
+        '<span class="name">Artium Academy</span>' +
+      '</div>' +
+      '<nav class="sidebar-nav">' +
+        '<div class="sidebar-section">' +
+          sidebarLink("dashboard.html", "dashboard", "Dashboard", activePage === "dashboard") +
+        '</div>' +
+        '<div class="sidebar-section">' +
+          '<div class="sidebar-link' + (activePage === "centre" ? " active" : "") + '" style="cursor:default;">' +
+            navIcon("centres") + '<span>Centres</span>' +
+          '</div>' +
+          '<div class="sidebar-subnav">' + centreLinks + '</div>' +
+        '</div>' +
+        '<div class="sidebar-section">' +
+          sidebarLink("reviews.html", "reviews", "Reviews", activePage === "reviews", soonBadge) +
+          sidebarLink("ai-insights.html", "insights", "AI Insights", activePage === "ai-insights", soonBadge) +
+          sidebarLink("targets.html", "targets", "Targets", activePage === "targets", soonBadge) +
+        '</div>' +
+        '<div class="sidebar-divider"></div>' +
+        '<div class="sidebar-section">' +
+          sidebarLink("operations.html", "people", "Operations Directory", activePage === "operations") +
+          sidebarLink("teachers.html", "teachers", "Teachers", activePage === "teachers") +
+          sidebarLink("teachers.html?view=leaderboards", "leaderboards", "Leaderboards", activePage === "leaderboards") +
+        '</div>' +
+        '<div class="sidebar-divider"></div>' +
+        '<div class="sidebar-section">' +
+          sidebarLink("reports.html", "reports", "Reports", activePage === "reports", soonBadge) +
+          sidebarLink("settings.html", "settings", "Settings", activePage === "settings", soonBadge) +
+        '</div>' +
+      '</nav>' +
+      '<div class="sidebar-footer">' +
+        '<div class="tagline">Better Feedback<br/>Stronger Learning</div>' +
+        '<div class="rule"></div>' +
+        '<div class="links">PEOPLE &nbsp;·&nbsp; PROCESSES &nbsp;·&nbsp; PRODUCT</div>' +
+      '</div>' +
+    '</aside>'
+  );
+}
+
+// titleHtml: left-hand content for the slim utility bar — usually a page
+// title or a breadcrumb the page itself builds.
+function renderTopbar(titleHtml, snapshot) {
   const user = typeof getCurrentUser === "function" ? getCurrentUser() : null;
   const userHtml = user ? (
     '<div class="user-chip" title="' + user.email + '">' +
@@ -93,11 +200,7 @@ function renderTopbar(activePage, snapshot) {
 
   return (
     '<header class="topbar">' +
-      '<div class="topbar-brand">' +
-        '<span class="name">Artium Academy</span>' +
-        '<span class="subtitle">Reviews Dashboard</span>' +
-      '</div>' +
-      '<nav class="topbar-nav">' + navHtml + '</nav>' +
+      '<div class="topbar-left">' + (titleHtml || "") + '</div>' +
       '<div class="topbar-right">' +
         '<div class="refresh-meta">' +
           '<span class="label">Last refreshed</span>' +
@@ -114,19 +217,86 @@ function signOutIcon() {
   return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
 }
 
+function hamburgerIcon() {
+  return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+}
+
 function wireRefreshButton() {
   const btn = document.getElementById("refreshBtn");
-  if (!btn) return;
-  btn.addEventListener("click", function () {
-    // This does NOT call Google live — that pull only happens on the
-    // scheduled GitHub Action's cadence (see scripts/refresh-data.js).
-    // This button just re-reads data/snapshot.json in case the Action has
-    // run more recently than this page load, and re-renders from it.
-    btn.classList.add("spinning");
-    window.location.reload();
-  });
+  if (btn) {
+    btn.addEventListener("click", function () {
+      // This does NOT call Google live — that pull only happens on the
+      // scheduled GitHub Action's cadence (see scripts/refresh-data.js).
+      // This button just re-reads data/snapshot.json in case the Action has
+      // run more recently than this page load, and re-renders from it.
+      btn.classList.add("spinning");
+      window.location.reload();
+    });
+  }
   const signOutBtn = document.getElementById("signOutBtn");
   if (signOutBtn) {
     signOutBtn.addEventListener("click", signOut);
   }
+  wireSidebarToggle();
+}
+
+// Off-canvas sidebar for narrow viewports — a hamburger button (injected
+// into the topbar's left slot) and a click-to-close overlay (injected once
+// into the page) toggle a .open class on the sidebar itself.
+function wireSidebarToggle() {
+  const sidebar = document.querySelector(".sidebar");
+  if (!sidebar) return;
+
+  let overlay = document.querySelector(".sidebar-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "sidebar-overlay";
+    document.body.appendChild(overlay);
+  }
+
+  const topbarLeft = document.querySelector(".topbar-left");
+  let toggleBtn = document.querySelector(".sidebar-toggle");
+  if (!toggleBtn && topbarLeft) {
+    toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className = "icon-btn sidebar-toggle";
+    toggleBtn.title = "Menu";
+    toggleBtn.innerHTML = hamburgerIcon();
+    topbarLeft.insertBefore(toggleBtn, topbarLeft.firstChild);
+  }
+
+  function close() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("open");
+  }
+  function open() {
+    sidebar.classList.add("open");
+    overlay.classList.add("open");
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", function () {
+      sidebar.classList.contains("open") ? close() : open();
+    });
+  }
+  overlay.addEventListener("click", close);
+}
+
+/* ==========================================================================
+   Shared "coming soon" stub page — reviews.html, ai-insights.html,
+   targets.html, reports.html, settings.html all just call this once
+   they're logged in, so a nav click never dead-ends.
+   ========================================================================== */
+async function renderStubPage(activePage, title, description) {
+  if (!requireAuth()) return;
+  await loadSnapshotData();
+  document.getElementById("sidebarSlot").innerHTML = renderSidebar(activePage, SNAPSHOT);
+  document.getElementById("topbarSlot").innerHTML = renderTopbar('<h1 class="topbar-title">' + title + '</h1>', SNAPSHOT);
+  wireRefreshButton();
+  document.getElementById("stubContent").innerHTML =
+    '<div class="card empty-state">' +
+      '<div class="empty-state-icon">' + navIcon(activePage === "ai-insights" ? "insights" : activePage) + '</div>' +
+      '<h2>' + title + ' is on the way</h2>' +
+      '<p>' + description + '</p>' +
+    '</div>';
 }

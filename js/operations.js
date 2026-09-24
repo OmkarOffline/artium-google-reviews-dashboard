@@ -16,7 +16,8 @@ const state = { role: "Admin" };
 document.addEventListener("DOMContentLoaded", async function () {
   if (!requireAuth()) return;
   await loadSnapshotData();
-  document.getElementById("topbarSlot").innerHTML = renderTopbar("operations", SNAPSHOT);
+  document.getElementById("sidebarSlot").innerHTML = renderSidebar("operations", SNAPSHOT);
+  document.getElementById("topbarSlot").innerHTML = renderTopbar('<h1 class="topbar-title">Operations Directory</h1>', SNAPSHOT);
   wireRefreshButton();
   populateCentreSelect();
   wireRoleSwitcher();

@@ -6,12 +6,14 @@
 document.addEventListener("DOMContentLoaded", async function () {
   if (!requireAuth()) return;
   await loadSnapshotData();
-  document.getElementById("topbarSlot").innerHTML = renderTopbar("dashboard", SNAPSHOT);
-  wireRefreshButton();
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id") || SNAPSHOT.centres[0].id;
   const centre = centreById(SNAPSHOT, id);
+
+  document.getElementById("sidebarSlot").innerHTML = renderSidebar("centre", SNAPSHOT, id);
+  document.getElementById("topbarSlot").innerHTML = renderTopbar('<h1 class="topbar-title">' + (centre ? centre.name : "Centre") + '</h1>', SNAPSHOT);
+  wireRefreshButton();
 
   if (!centre) {
     document.querySelector(".page").innerHTML =
@@ -35,12 +37,33 @@ function renderCentre(centre) {
   document.getElementById("centreLocation").textContent = centre.location;
   document.getElementById("gmbLink").href = centre.gmbUrl;
 
+  const monthIdx = centre.monthlyBreakdown.findIndex(function (m) { return m.month === monthKey; });
+  const prevEntry = monthIdx > 0 ? centre.monthlyBreakdown[monthIdx - 1] : null;
+  const ratingDelta = prevEntry ? Math.round((centre.rating - prevEntry.rating) * 10) / 10 : null;
+  const reviewsDelta = prevEntry ? (monthCount - prevEntry.count) : null;
+
   document.getElementById("statGrid").innerHTML =
-    statTile("Google rating", centre.rating.toFixed(1), starIcon("#eda100"), null) +
-    statTile("Total reviews", centre.totalReviews.toLocaleString("en-IN"), null, null) +
-    statTile(monthLabel(monthKey) + " reviews", monthCount + ' <span class="unit">/ ' + centre.monthlyTarget + '</span>', null, null) +
-    statTile("Target completion", pct + "<span class=\"unit\">%</span>", null,
-      over ? { text: "Target met", up: true } : { text: (centre.monthlyTarget - monthCount) + " to go", up: false });
+    statTile({
+      label: "Google rating", value: centre.rating.toFixed(1),
+      icon: starIcon("#eda100"), iconBg: "#fdf3d9",
+      delta: ratingDelta === null ? null : deltaFrom(ratingDelta, Math.abs(ratingDelta).toFixed(1), monthLabel(prevEntry.month))
+    }) +
+    statTile({
+      label: "Total reviews", value: centre.totalReviews.toLocaleString("en-IN"),
+      icon: reviewsIcon(), iconBg: "var(--accent-light)",
+      caption: (monthCount > 0 ? "+" + monthCount + " this month" : "No new reviews this month") + " · Lifetime"
+    }) +
+    statTile({
+      label: monthLabel(monthKey) + " reviews", value: monthCount, unit: "/ " + centre.monthlyTarget,
+      icon: trendIcon(), iconBg: "#e4f7ec",
+      delta: reviewsDelta === null ? null : deltaFrom(reviewsDelta, Math.abs(reviewsDelta), monthLabel(prevEntry.month))
+    }) +
+    statTile({
+      label: "Monthly target", value: centre.monthlyTarget,
+      icon: targetChipIcon(), iconBg: "#f2e9ff",
+      caption: "Owned by " + centre.owner.name + " · " + centre.owner.role,
+      progressPct: pct
+    });
 
   document.getElementById("aiSummaryText").textContent = centre.aiSummary;
   document.getElementById("themeTags").innerHTML = centre.topThemes.map(function (t) {
@@ -55,7 +78,7 @@ function renderCentre(centre) {
     series: [{ name: centre.name, color: "#2a78d6", values: centre.monthlyBreakdown.map(function (m) { return m.count; }) }]
   });
 
-  // Monthly review breakdown (compact bar-in-list)
+  // Monthly review breakdown (compact bar-in-list, with that month's average rating)
   const maxCount = Math.max.apply(null, centre.monthlyBreakdown.map(function (m) { return m.count; }));
   document.getElementById("monthBreakdownList").innerHTML = centre.monthlyBreakdown.map(function (m) {
     const w = Math.round((m.count / maxCount) * 100);
@@ -64,6 +87,7 @@ function renderCentre(centre) {
         '<span class="m">' + monthLabel(m.month) + '</span>' +
         '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div>' +
         '<span class="n">' + m.count + '</span>' +
+        '<span class="r">' + (m.rating ? m.rating.toFixed(1) + '★' : '—') + '</span>' +
       '</div>'
     );
   }).join("");
@@ -75,14 +99,20 @@ function renderCentre(centre) {
     '<div class="info-row"><span class="k">Role</span><span class="v">' + centre.owner.role + '</span></div>' +
     '<div class="info-row"><span class="k">Cadence</span><span class="cadence-chip">' + centre.owner.cadence + '</span></div>';
 
-  // Teacher mentions
-  document.getElementById("mentionsList").innerHTML = centre.teacherMentions.map(function (t) {
+  // Teacher mentions — ranked by mention count, with a bar showing relative share
+  const rankedMentions = centre.teacherMentions.slice().sort(function (a, b) { return b.mentions - a.mentions; });
+  const maxMentions = Math.max.apply(null, rankedMentions.map(function (t) { return t.mentions; }).concat([1]));
+  document.getElementById("mentionsList").innerHTML = rankedMentions.map(function (t) {
     const initials = t.name === "Not Applicable" ? "—" : t.name.split(" ").map(function (p) { return p[0]; }).slice(0, 2).join("");
+    const w = Math.round((t.mentions / maxMentions) * 100);
     return (
-      '<div class="mention-row">' +
-        '<div class="avatar">' + initials + '</div>' +
-        '<div class="info"><div class="name">' + t.name + '</div><div class="course">' + t.course + '</div></div>' +
-        '<span class="count">' + t.mentions + ' mentions</span>' +
+      '<div class="mention-item">' +
+        '<div class="mention-row">' +
+          '<div class="avatar">' + initials + '</div>' +
+          '<div class="info"><div class="name">' + t.name + '</div><div class="course">' + t.course + '</div></div>' +
+          '<span class="count">' + t.mentions + ' mentions</span>' +
+        '</div>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div>' +
       '</div>'
     );
   }).join("");
