@@ -147,14 +147,20 @@ button {
   object-fit: cover;
   object-position: 50% 30%;
   display: block;
+  filter: saturate(1.45) contrast(1.08) brightness(1.03);
 }
 
+/* Punchier scrim: a saturated indigo-to-violet wash (was flat navy/black)
+   plus a warm accent glow at the bottom-left, still dark enough at the top
+   and bottom edges to keep the headline and tagline legible. */
 .login-visual-scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(6, 12, 36, 0.82) 0%, rgba(8, 15, 42, 0.55) 30%, rgba(8, 14, 36, 0.12) 58%, rgba(6, 10, 28, 0.8) 100%),
-    linear-gradient(90deg, rgba(6, 10, 30, 0.4) 0%, rgba(6, 10, 30, 0.03) 42%);
+    radial-gradient(120% 90% at 8% 105%, rgba(255, 122, 24, 0.38) 0%, rgba(255, 122, 24, 0) 45%),
+    linear-gradient(200deg, rgba(76, 29, 149, 0.5) 0%, rgba(29, 25, 110, 0) 55%),
+    linear-gradient(180deg, rgba(8, 12, 54, 0.88) 0%, rgba(20, 22, 90, 0.5) 30%, rgba(30, 27, 110, 0.14) 58%, rgba(10, 10, 50, 0.85) 100%),
+    linear-gradient(90deg, rgba(8, 10, 46, 0.45) 0%, rgba(8, 10, 46, 0.04) 42%);
 }
 
 .login-visual-top,
@@ -492,6 +498,30 @@ button {
   border: 1px solid var(--border);
   padding: 2px 6px;
   border-radius: 999px;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.status-badge.status-active {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.status-badge.status-inactive {
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.data-table tr.row-inactive {
+  opacity: 0.62;
 }
 
 .sidebar-subnav {

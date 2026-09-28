@@ -105,6 +105,12 @@ function isAdmin() {
   return state.role === "Admin";
 }
 
+// Missing `active` (all teachers added before the inactive-flag existed)
+// defaults to active — only an explicit `active: false` counts as inactive.
+function isActiveTeacher(t) {
+  return t.active !== false;
+}
+
 function mentionsFor(teacher) {
   const centre = centreById(SNAPSHOT, teacher.centreId);
   if (!centre || !centre.teacherMentions) return 0;
@@ -128,11 +134,15 @@ function renderDirectory() {
 
   const rows = SNAPSHOT.teacherDirectory.map(function (t) {
     const centre = centreById(SNAPSHOT, t.centreId);
+    const active = isActiveTeacher(t);
     return (
-      '<tr>' +
+      '<tr' + (active ? "" : ' class="row-inactive"') + '>' +
         '<td><div class="person-name">' + t.name + '</div><div class="person-email">' + t.email + '</div></td>' +
         '<td>' + (centre ? centre.name : "—") + '</td>' +
         '<td>' + t.course1 + '</td>' +
+        '<td>' + (active
+          ? '<span class="status-badge status-active">Active</span>'
+          : '<span class="status-badge status-inactive">Inactive</span>') + '</td>' +
         '<td>' + (canEdit
           ? '<div class="row-actions">' +
               '<button type="button" data-edit="' + t.id + '">Edit</button>' +
@@ -185,6 +195,7 @@ function openModal(id) {
   document.getElementById("fieldCentre").value = teacher ? teacher.centreId : SNAPSHOT.centres[0].id;
   document.getElementById("fieldCourse1").value = teacher ? teacher.course1 : SNAPSHOT.courseOptions[0];
   document.getElementById("fieldCourse2").value = teacher ? teacher.course2 : "Not Applicable";
+  document.getElementById("fieldActive").checked = teacher ? isActiveTeacher(teacher) : true;
 
   document.getElementById("modalOverlay").classList.add("visible");
 }
@@ -200,7 +211,8 @@ function saveTeacher() {
     email: document.getElementById("fieldEmail").value.trim(),
     centreId: document.getElementById("fieldCentre").value,
     course1: document.getElementById("fieldCourse1").value,
-    course2: document.getElementById("fieldCourse2").value
+    course2: document.getElementById("fieldCourse2").value,
+    active: document.getElementById("fieldActive").checked
   };
 
   if (!data.name || !data.email) return;
@@ -237,9 +249,9 @@ function renderLeaderboards() {
 // by month), so this list ignores the Lifetime/Current Month scope and
 // always ranks by lifetime mentions — it does respect the centre filter.
 function renderTeacherLeaderboard() {
-  const teachers = lbState.centreId === "all"
-    ? SNAPSHOT.teacherDirectory
-    : SNAPSHOT.teacherDirectory.filter(function (t) { return t.centreId === lbState.centreId; });
+  const teachers = SNAPSHOT.teacherDirectory
+    .filter(function (t) { return isActiveTeacher(t); })
+    .filter(function (t) { return lbState.centreId === "all" || t.centreId === lbState.centreId; });
 
   const ranked = teachers
     .map(function (t) { return { name: t.name, centre: centreById(SNAPSHOT, t.centreId).name, score: mentionsFor(t) }; })

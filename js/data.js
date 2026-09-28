@@ -110,7 +110,25 @@ const SNAPSHOT = {
     { id: 15, name: "Prachita Patil", email: "", centreId: "borewell-road", course1: "North Vocals", course2: "Not Applicable" },
     { id: 16, name: "Konoak Phom", email: "", centreId: "borewell-road", course1: "Western Vocals", course2: "Not Applicable" },
     { id: 17, name: "Gagan Kumar", email: "", centreId: "borewell-road", course1: "Guitar", course2: "Not Applicable" },
-    { id: 18, name: "Joel Devraj", email: "", centreId: "borewell-road", course1: "Keyboard", course2: "Not Applicable" }
+    { id: 18, name: "Joel Devraj", email: "", centreId: "borewell-road", course1: "Keyboard", course2: "Not Applicable" },
+
+    // Inactive — identified from real Google review text (Sep 2026 Takeout
+    // export) as teachers who are clearly active/well-reviewed at their
+    // centre but were missing from the roster above. Added so their real
+    // review mentions attribute correctly, but marked `active: false` since
+    // Omkar hasn't confirmed their current employment status — they're kept
+    // out of leaderboards and flagged in the directory rather than deleted.
+    // No email addresses given yet.
+    { id: 19, name: "Minija", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable", active: false },
+    { id: 20, name: "Krishna Sai", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable", active: false },
+    { id: 21, name: "Ashwath", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable", active: false },
+    { id: 22, name: "Sylvester", email: "", centreId: "alwarpet", course1: "Guitar", course2: "Not Applicable", active: false },
+    { id: 23, name: "Vijay", email: "", centreId: "alwarpet", course1: "Keyboard", course2: "Not Applicable", active: false },
+    { id: 24, name: "Anjali", email: "", centreId: "alwarpet", course1: "Western Vocals", course2: "Not Applicable", active: false },
+    { id: 25, name: "Sooraj", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable", active: false },
+    { id: 26, name: "Dhivyan", email: "", centreId: "alwarpet", course1: "South Vocals", course2: "Not Applicable", active: false },
+    { id: 27, name: "Prashanthine", email: "", centreId: "thoraipakkam", course1: "South Vocals", course2: "Not Applicable", active: false },
+    { id: 28, name: "Sakthi", email: "", centreId: "thoraipakkam", course1: "Western Vocals", course2: "Not Applicable", active: false }
   ]
 };
 
